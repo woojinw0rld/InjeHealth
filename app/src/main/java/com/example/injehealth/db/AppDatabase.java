@@ -1,0 +1,53 @@
+package com.example.injehealth.db;
+
+import android.content.Context;
+
+import androidx.annotation.NonNull;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import com.example.injehealth.db.dao.BodyRecordDao;
+import com.example.injehealth.db.dao.ExerciseDao;
+import com.example.injehealth.db.dao.RoutineDao;
+import com.example.injehealth.db.dao.UserDao;
+import com.example.injehealth.db.dao.WorkoutLogDao;
+import com.example.injehealth.db.dao.WorkoutSessionDao;
+
+public abstract class AppDatabase extends RoomDatabase {
+
+    private static volatile AppDatabase INSTANCE;
+
+    public abstract UserDao userDao();
+    public abstract ExerciseDao exerciseDao();
+    public abstract RoutineDao routineDao();
+    public abstract WorkoutSessionDao workoutSessionDao();
+    public abstract WorkoutLogDao workoutLogDao();
+    public abstract BodyRecordDao bodyRecordDao();
+
+    public static AppDatabase getInstance(Context context) {
+        if (INSTANCE == null) {
+            synchronized (AppDatabase.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = Room.databaseBuilder(
+                                    context.getApplicationContext(),
+                                    AppDatabase.class,
+                                    "inje_health.db"
+                            )
+                            .addCallback(prepopulateCallback)
+                            .build();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    // 앱 최초 설치 시 기본 운동 종목 삽입
+    private static final RoomDatabase.Callback prepopulateCallback = new RoomDatabase.Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            // 필요 시 Executors로 기본 데이터 삽입
+        }
+    };
+}
