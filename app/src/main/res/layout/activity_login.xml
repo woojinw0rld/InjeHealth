@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_primary"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="32dp"
+        android:paddingBottom="24dp">
+
+        <!-- ── 로고 영역 ── -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="48dp">
+
+            <!-- 원형 아이콘 (gradient는 XML shape로 대체) -->
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/bg_btn_start"
+                android:background="@drawable/bg_logo_circle"
+                android:padding="20dp"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="앱 로고" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="인제 헬스"
+                android:textSize="28sp"
+                android:textColor="@color/text_primary"
+                android:fontFamily="sans-serif-medium" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="나만의 피트니스 여정을 시작하세요"
+                android:textSize="13sp"
+                android:textColor="@color/text_secondary"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- ── 입력 폼 ── -->
+
+        <!-- 몸무게 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="몸무게"
+            android:textSize="14sp"
+            android:textColor="@color/text_primary"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp">
+
+            <EditText
+                android:id="@+id/et_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:hint="70"
+                android:textColorHint="@color/text_disabled"
+                android:textColor="@color/text_primary"
+                android:background="@drawable/bg_input_field"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
+                android:paddingEnd="48dp"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="16dp"
+                android:text="kg"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary" />
+        </FrameLayout>
+
+        <!-- 키 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="키"
+            android:textSize="14sp"
+            android:textColor="@color/text_primary"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp">
+
+            <EditText
+                android:id="@+id/et_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:hint="175"
+                android:textColorHint="@color/text_disabled"
+                android:textColor="@color/text_primary"
+                android:background="@drawable/bg_input_field"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
+                android:paddingEnd="48dp"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="16dp"
+                android:text="cm"
+                android:textSize="14sp"
+                android:textColor="@color/text_secondary" />
+        </FrameLayout>
+
+        <!-- 성별 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="성별"
+            android:textSize="14sp"
+            android:textColor="@color/text_primary"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_gender_container"
+            android:padding="4dp"
+            android:layout_marginBottom="24dp">
+
+            <Button
+                android:id="@+id/btn_male"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Male"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-medium"
+                android:background="@drawable/bg_gender_selected"
+                android:textColor="@color/white"
+                android:stateListAnimator="@null"
+                android:paddingVertical="12dp" />
+
+            <Button
+                android:id="@+id/btn_female"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Female"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-medium"
+                android:background="@android:color/transparent"
+                android:textColor="@color/text_secondary"
+                android:stateListAnimator="@null"
+                android:paddingVertical="12dp" />
+        </LinearLayout>
+
+        <!-- 나이 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="나이"
+            android:textSize="14sp"
+            android:textColor="@color/text_primary"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/et_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="25"
+            android:textColorHint="@color/text_disabled"
+            android:textColor="@color/text_primary"
+            android:background="@drawable/bg_input_field"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="14dp"
+            android:textSize="16sp"
+            android:layout_marginBottom="32dp" />
+
+        <!-- ── 시작하기 버튼 ── -->
+        <Button
+            android:id="@+id/btn_start"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="시작하기"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-medium"
+            android:background="@drawable/bg_btn_start"
+            android:textColor="@color/white"
+            android:stateListAnimator="@null"
+            android:enabled="false"
+            android:layout_marginBottom="16dp" />
+
+        <!-- 이용약관 안내 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="계속 진행하면 개인정보 처리방침 및 이용약관에 동의하는 것으로 간주됩니다"
+            android:textSize="11sp"
+            android:textColor="@color/text_disabled"
+            android:gravity="center" />
+
+    </LinearLayout>
+</ScrollView>

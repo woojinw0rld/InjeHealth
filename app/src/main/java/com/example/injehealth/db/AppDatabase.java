@@ -14,6 +14,22 @@ import com.example.injehealth.db.dao.UserDao;
 import com.example.injehealth.db.dao.WorkoutLogDao;
 import com.example.injehealth.db.dao.WorkoutSessionDao;
 
+@androidx.room.Database(
+        entities = {
+                com.example.injehealth.db.entity.User.class,
+
+                com.example.injehealth.db.entity.Exercise.class,
+
+                com.example.injehealth.db.entity.Routine.class,
+                com.example.injehealth.db.entity.WorkoutSession.class,
+
+                com.example.injehealth.db.entity.WorkoutLog.class,
+
+                com.example.injehealth.db.entity.BodyRecord.class
+        },
+        version = 1
+)
+
 public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase INSTANCE;
