@@ -25,4 +25,7 @@ public interface WorkoutLogDao {
 
     @Query("DELETE FROM workout_logs WHERE session_id = :sessionId")
     void deleteBySession(int sessionId);
+
+    @Query("SELECT COUNT(DISTINCT exercise_name) FROM workout_logs WHERE session_id = :sessionId")
+    int getExerciseCount(int sessionId);
 }

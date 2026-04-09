@@ -3,10 +3,17 @@ package com.example.injehealth.db;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.injehealth.db.entity.BodyRecord;
+import com.example.injehealth.db.entity.Exercise;
+import com.example.injehealth.db.entity.Routine;
+import com.example.injehealth.db.entity.User;
+import com.example.injehealth.db.entity.WorkoutLog;
+import com.example.injehealth.db.entity.WorkoutSession;
 import com.example.injehealth.db.dao.BodyRecordDao;
 import com.example.injehealth.db.dao.ExerciseDao;
 import com.example.injehealth.db.dao.RoutineDao;
