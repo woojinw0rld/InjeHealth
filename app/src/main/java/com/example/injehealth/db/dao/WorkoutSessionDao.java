@@ -5,6 +5,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.injehealth.db.model.SessionSummary;
 import com.example.injehealth.db.entity.WorkoutSession;
 
 import java.util.List;
@@ -25,4 +26,13 @@ public interface WorkoutSessionDao {
 
     @Query("SELECT * FROM workout_sessions WHERE id = :id")
     WorkoutSession getById(int id);
+
+    @Query("SELECT ws.id, ws.date, ws.body_part, ws.photo_path, ws.created_at, ws.done_at, " +
+           "COUNT(DISTINCT wl.exercise_name) AS exercise_count, " +
+           "COUNT(wl.id) AS total_sets " +
+           "FROM workout_sessions ws " +
+           "LEFT JOIN workout_logs wl ON wl.session_id = ws.id " +
+           "GROUP BY ws.id " +
+           "ORDER BY ws.date DESC")
+    List<SessionSummary> getSessionSummaries();
 }

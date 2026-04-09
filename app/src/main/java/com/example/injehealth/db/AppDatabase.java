@@ -3,10 +3,17 @@ package com.example.injehealth.db;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.injehealth.db.entity.BodyRecord;
+import com.example.injehealth.db.entity.Exercise;
+import com.example.injehealth.db.entity.Routine;
+import com.example.injehealth.db.entity.User;
+import com.example.injehealth.db.entity.WorkoutLog;
+import com.example.injehealth.db.entity.WorkoutSession;
 import com.example.injehealth.db.dao.BodyRecordDao;
 import com.example.injehealth.db.dao.ExerciseDao;
 import com.example.injehealth.db.dao.RoutineDao;
@@ -14,6 +21,7 @@ import com.example.injehealth.db.dao.UserDao;
 import com.example.injehealth.db.dao.WorkoutLogDao;
 import com.example.injehealth.db.dao.WorkoutSessionDao;
 
+@Database(entities = {User.class, Exercise.class, Routine.class, WorkoutSession.class, WorkoutLog.class, BodyRecord.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase INSTANCE;

@@ -1,3 +1,36 @@
 <resources>
     <string name="app_name">InjeHealth</string>
+
+    <!-- History List -->
+    <string name="history_title">운동 기록</string>
+    <string name="history_total_format">총 %d개의 운동 기록</string>
+    <string name="history_sort_latest">최신순</string>
+    <string name="history_sets_format">%d 세트</string>
+    <string name="history_time_format">%d분</string>
+    <string name="history_exercise_count_format">%d개 운동 완료</string>
+    <string name="history_empty_title">아직 운동 기록이 없습니다</string>
+    <string name="history_empty_subtitle">첫 운동을 시작해보세요!</string>
+    <string name="history_thumbnail_alt">눈바디</string>
+
+    <!-- History Detail -->
+    <string name="detail_title_format">%s 운동</string>
+    <string name="detail_time">운동 시간</string>
+    <string name="detail_total_sets">총 세트</string>
+    <string name="detail_total_volume">총 볼륨</string>
+    <string name="detail_completion_rate">달성률</string>
+    <string name="detail_time_format">%d분</string>
+    <string name="detail_volume_format">%skg</string>
+    <string name="detail_rate_format">%d%%</string>
+    <string name="detail_photo_title">눈바디 사진</string>
+    <string name="detail_exercise_title">운동 상세</string>
+    <string name="detail_set_header">세트</string>
+    <string name="detail_planned_header">목표</string>
+    <string name="detail_actual_header">실제</string>
+    <string name="detail_planned_format">%d회 × %.0fkg</string>
+    <string name="detail_actual_format">%d회 × %.0fkg</string>
+    <string name="detail_exercise_volume">운동 볼륨</string>
+    <string name="detail_analysis_title">운동 분석</string>
+    <string name="detail_analysis_perfect">목표 대비 %d%% 달성했습니다. 완벽한 수행입니다! 🎉</string>
+    <string name="detail_analysis_great">목표 대비 %d%% 달성했습니다. 훌륭한 수행입니다! 💪</string>
+    <string name="detail_analysis_normal">목표 대비 %d%% 달성했습니다. 다음엔 더 잘할 수 있어요!</string>
 </resources>
