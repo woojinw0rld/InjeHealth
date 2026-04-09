@@ -15,6 +15,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+AGENTS.md
 
 # Keystore (서명 키 - 절대 커밋 금지)
 *.jks
