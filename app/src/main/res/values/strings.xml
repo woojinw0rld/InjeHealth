@@ -33,4 +33,35 @@
     <string name="detail_analysis_perfect">목표 대비 %d%% 달성했습니다. 완벽한 수행입니다! 🎉</string>
     <string name="detail_analysis_great">목표 대비 %d%% 달성했습니다. 훌륭한 수행입니다! 💪</string>
     <string name="detail_analysis_normal">목표 대비 %d%% 달성했습니다. 다음엔 더 잘할 수 있어요!</string>
+
+    <!-- Myinbody -->
+    <string name="myinbody_title">체중 변화</string>
+    <string name="myinbody_subtitle">최근 30일</string>
+    <string name="myinbody_tab_weight">체중</string>
+    <string name="myinbody_tab_muscle">근육량</string>
+    <string name="myinbody_tab_fat_mass">체지방량</string>
+    <string name="myinbody_tab_fat_rate">체지방률</string>
+    <string name="myinbody_stat_current">현재</string>
+    <string name="myinbody_stat_daily_change">전일 대비</string>
+    <string name="myinbody_stat_total_change">총 변화</string>
+    <string name="myinbody_input_title">오늘의 기록</string>
+    <string name="myinbody_label_weight">체중</string>
+    <string name="myinbody_label_muscle">근육량</string>
+    <string name="myinbody_label_fat_mass">체지방량</string>
+    <string name="myinbody_label_fat_rate">체지방률</string>
+    <string name="myinbody_hint_weight">체중 입력</string>
+    <string name="myinbody_hint_muscle">근육량 입력</string>
+    <string name="myinbody_hint_fat_mass">체지방량 입력</string>
+    <string name="myinbody_hint_fat_rate">체지방률 입력</string>
+    <string name="myinbody_btn_add">추가</string>
+    <string name="myinbody_history_title">기록 내역</string>
+    <string name="myinbody_empty_title">아직 기록이 없습니다</string>
+    <string name="myinbody_empty_subtitle">첫 체중을 기록해보세요</string>
+    <string name="myinbody_edit">수정</string>
+    <string name="myinbody_delete">삭제</string>
+    <string name="myinbody_save">저장</string>
+    <string name="myinbody_cancel">취소</string>
+    <string name="myinbody_unit_kg">%skg</string>
+    <string name="myinbody_unit_percent">%s%%</string>
+    <string name="myinbody_sub_format">근육 %skg · 체지방 %skg · 체지방률 %s%%</string>
 </resources>

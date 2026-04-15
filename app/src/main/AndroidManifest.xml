@@ -26,6 +26,9 @@
         <activity
             android:name=".HistoryDetailActivity"
             android:exported="false" />
+        <activity
+            android:name=".MyinbodyActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
