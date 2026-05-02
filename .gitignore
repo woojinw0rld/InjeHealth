@@ -1,25 +1,48 @@
-*.iml
-.gradle
+# ─── Gradle ───────────────────────────────────────────
+.gradle/
+/build/
 /local.properties
-/.idea/caches
-/.idea/libraries
+
+# ─── Android Studio / IntelliJ ────────────────────────
+*.iml
+/.idea/caches/
+/.idea/libraries/
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-.idea/gradle.xml                                                    
-.idea/misc.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
-AGENTS.md
+# Android Studio 실행 시 자동 변경되는 파일
+/.idea/gradle.xml
+/.idea/misc.xml
+/.idea/markdown.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/deviceManager.xml
 
-# Keystore (서명 키 - 절대 커밋 금지)
+# ─── 빌드 산출물 ──────────────────────────────────────
+/app/build/
+/captures/
+.externalNativeBuild/
+.cxx/
+/app/release/
+
+# ─── 보안 / 시크릿 ────────────────────────────────────
+# 서명 키 (절대 커밋 금지)
 *.jks
 *.keystore
+*.p12
+*.pfx
 
-# 생성된 파일
-/app/release/
+# Firebase / Google 서비스 (API 키 포함)
+google-services.json
+
+# 환경변수 · API 키 파일
+secrets.properties
+apikeys.properties
+api_keys.xml
+release.properties
+*.env
+
+# ─── OS 파일 ──────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
