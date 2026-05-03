@@ -20,6 +20,7 @@ import com.example.injehealth.db.entity.WorkoutSession;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -101,13 +102,8 @@ public class HomeFragment extends Fragment {
         }
         /** bnt_exercise_catalog :: 전체 운동 리스트*/
         view.findViewById(R.id.btn_exercise_catalog).setOnClickListener(v ->
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        /**fragment_container :: activity_main.xml*/
-                        .replace(R.id.fragment_container, new ExerciseCatalogFragment())
-                        .addToBackStack(null)
-                        .commit());
-
+                ((MainActivity) requireActivity()).switchToTab(R.id.tab_exercise));
+        /** btn_recent_detail :: 최근 운동기록 자세히 보기  추후 리팩토링 예정 mainactivity로 불러야함.*/
         view.findViewById(R.id.btn_recent_detail).setOnClickListener(v ->
                 startActivity(new Intent(requireContext(), HistoryListActivity.class)));
     }
@@ -128,7 +124,6 @@ public class HomeFragment extends Fragment {
     }
 
     // ── DB 로드 ────────────────────────────────────────────
-
     private void loadHomeData() {
         Executors.newSingleThreadExecutor().execute(() -> {
             AppDatabase db = AppDatabase.getInstance(requireContext());
@@ -136,9 +131,7 @@ public class HomeFragment extends Fragment {
             List<WorkoutSession> sessions = db.workoutSessionDao().getAll();
 
             WorkoutSession recent = sessions.isEmpty() ? null : sessions.get(0);
-            List<WorkoutLog> recentLogs = recent != null
-                    ? db.workoutLogDao().getBySession(recent.id)
-                    : new ArrayList<>();
+            List<WorkoutLog> recentLogs = recent != null ? db.workoutLogDao().getBySession(recent.id) : new ArrayList<>();
 
             int weekly = calcWeeklyCount(sessions);
             int streak = calcStreak(sessions);
@@ -153,7 +146,7 @@ public class HomeFragment extends Fragment {
     }
 
     // ── 통계 계산 ──────────────────────────────────────────
-
+    /**주간 운동 카운트*/
     private int calcWeeklyCount(List<WorkoutSession> sessions) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -170,37 +163,26 @@ public class HomeFragment extends Fragment {
         return count;
     }
 
+    /**연속 운동 일수 카운트*/
     private int calcStreak(List<WorkoutSession> sessions) {
         if (sessions.isEmpty()) return 0;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        List<String> dates = new ArrayList<>();
+        List<LocalDate> dates = new ArrayList<>();
         for (WorkoutSession s : sessions) {
-            if (s.date != null && !dates.contains(s.date)) dates.add(s.date);
+            if (s.date == null) continue;
+            LocalDate d = LocalDate.parse(s.date);
+            if (!dates.contains(d)) dates.add(d);
         }
         if (dates.isEmpty()) return 0;
 
-        Calendar cal = Calendar.getInstance();
-        String today = sdf.format(cal.getTime());
-        cal.add(Calendar.DAY_OF_YEAR, -1);
-        String yesterday = sdf.format(cal.getTime());
-
-        if (!dates.get(0).equals(today) && !dates.get(0).equals(yesterday)) return 0;
+        LocalDate today = LocalDate.now();
+        if (!dates.get(0).equals(today) && !dates.get(0).equals(today.minusDays(1))) return 0;
 
         int streak = 1;
         for (int i = 1; i < dates.size(); i++) {
-            try {
-                Calendar a = Calendar.getInstance();
-                Calendar b = Calendar.getInstance();
-                a.setTime(sdf.parse(dates.get(i - 1)));
-                b.setTime(sdf.parse(dates.get(i)));
-                a.add(Calendar.DAY_OF_YEAR, -1);
-                if (sdf.format(a.getTime()).equals(sdf.format(b.getTime()))) {
-                    streak++;
-                } else {
-                    break;
-                }
-            } catch (ParseException e) {
+            if (dates.get(i - 1).minusDays(1).equals(dates.get(i))) {
+                streak++;
+            } else {
                 break;
             }
         }
@@ -209,6 +191,8 @@ public class HomeFragment extends Fragment {
 
     // ── 최근 운동 카드 바인딩 ──────────────────────────────
 
+
+    /**최근 운동 기록*/
     private void bindRecentWorkout(WorkoutSession session, List<WorkoutLog> logs) {
         if (session == null) {
             cardRecentWorkout.setVisibility(View.GONE);
@@ -275,6 +259,8 @@ public class HomeFragment extends Fragment {
         return wStr + "kg × " + maxReps + "회 × " + logs.size() + "세트";
     }
 
+
+    /**운동 로그를 종목명 기준으로 묶음*/
     private Map<String, List<WorkoutLog>> groupByExercise(List<WorkoutLog> logs) {
         Map<String, List<WorkoutLog>> map = new LinkedHashMap<>();
         for (WorkoutLog l : logs) {
@@ -286,6 +272,7 @@ public class HomeFragment extends Fragment {
 
     // ── 포맷 헬퍼 ─────────────────────────────────────────
 
+    /**운동 시간 계산*/
     private String calcDuration(String createdAt, String doneAt) {
         if (createdAt == null || doneAt == null) return "-";
         try {
