@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/tab_home"
+        android:title="홈"
+        android:icon="@drawable/ic_home" />
+    <item
+        android:id="@+id/tab_history"
+        android:title="기록"
+        android:icon="@drawable/ic_history" />
+    <item
+        android:id="@+id/tab_myinbody"
+        android:title="Myinbody"
+        android:icon="@drawable/ic_monitor_weight" />
+    <item
+        android:id="@+id/tab_exercise"
+        android:title="운동"
+        android:icon="@drawable/ic_fitness_center" />
+    <item
+        android:id="@+id/tab_menu"
+        android:title="메뉴"
+        android:icon="@drawable/ic_menu" />
+</menu>

@@ -1,5 +1,6 @@
 package com.example.injehealth;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,7 +16,7 @@ import java.util.concurrent.Executors;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText etWeight, etHeight, etAge;
+    private EditText etWeight, etHeight, etAge, etName;
     private Button btnMale, btnFemale, btnStart;
     private String selectedGender = "male";
 
@@ -27,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         etWeight = findViewById(R.id.et_weight);
         etHeight = findViewById(R.id.et_height);
         etAge    = findViewById(R.id.et_age);
+        etName   = findViewById(R.id.et_name);
         btnMale  = findViewById(R.id.btn_male);
         btnFemale = findViewById(R.id.btn_female);
         btnStart = findViewById(R.id.btn_start);
@@ -37,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         btnStart.setOnClickListener(v -> saveAndProceed());
     }
 
-    private void setupGenderToggle() {
+    private void setupGenderToggle() { //버튼clickListener 버튼 클릭시 색변경
         btnMale.setOnClickListener(v -> {
             selectedGender = "male";
             btnMale.setBackgroundResource(R.drawable.bg_gender_selected);
@@ -63,31 +65,37 @@ public class LoginActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 boolean filled = !etWeight.getText().toString().trim().isEmpty()
                         && !etHeight.getText().toString().trim().isEmpty()
-                        && !etAge.getText().toString().trim().isEmpty();
+                        && !etAge.getText().toString().trim().isEmpty()
+                        && !etName.getText().toString().trim().isEmpty()
+                        && Integer.parseInt(etAge.getText().toString()) > 1
+                        && Integer.parseInt(etAge.getText().toString()) < 90;
                 btnStart.setEnabled(filled);
             }
         };
         etWeight.addTextChangedListener(watcher);
         etHeight.addTextChangedListener(watcher);
         etAge.addTextChangedListener(watcher);
+        etName.addTextChangedListener(watcher);
     }
 
     private void saveAndProceed() {
         double weight = Double.parseDouble(etWeight.getText().toString().trim());
         double height = Double.parseDouble(etHeight.getText().toString().trim());
         int age       = Integer.parseInt(etAge.getText().toString().trim());
+        String name   = etName.getText().toString().trim();
 
         User user = new User();
         user.weight = weight;
         user.height = height;
         user.age    = age;
         user.gender = selectedGender;
+        user.name = name;
 
         Executors.newSingleThreadExecutor().execute(() -> {
             AppDatabase.getInstance(this).userDao().insert(user);
             runOnUiThread(() -> {
-                //startActivity(new Intent(this, HomeActivity.class));
-                //finish();
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
                 return;
             });
         });

@@ -37,7 +37,7 @@ import com.example.injehealth.db.entity.WorkoutSession;
                 DietLog.class,
                 DietItem.class
         },
-        version = 2
+        version = 3
 )
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -82,6 +82,12 @@ public abstract class AppDatabase extends RoomDatabase {
             );
         }
     };
+    static final Migration MIGRATION_2_3 = new Migration(2,3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase supportSQLiteDatabase) {
+            supportSQLiteDatabase.execSQL("ALTER TABLE `users` ADD COLUMN `name` TEXT");
+        }
+    };
 
     public static AppDatabase getInstance(Context context) {
         if (INSTANCE == null) {
@@ -92,7 +98,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                     AppDatabase.class,
                                     "inje_health.db"
                             )
-                            .addMigrations(MIGRATION_1_2)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                             .addCallback(prepopulateCallback)
                             .build();
                 }

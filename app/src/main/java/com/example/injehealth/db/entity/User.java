@@ -10,5 +10,6 @@ public class User {
     public double weight;
     public double height;
     public String gender;
+    public String name;
     public int age;
 }

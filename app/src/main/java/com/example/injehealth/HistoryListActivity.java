@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 
+
 /**
  * 운동 기록 목록 화면 (FR-19~21)
  *
