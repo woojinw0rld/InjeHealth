@@ -1,0 +1,79 @@
+package com.example.injehealth.util;
+
+import android.content.Context;
+import android.net.Uri;
+
+import androidx.core.content.FileProvider;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+public class PhotoFileHelper {
+
+    private static final String AUTHORITY_SUFFIX = ".fileprovider";
+
+    /**
+     * getExternalFilesDir(Pictures)/diet_<timestamp>.jpg 파일 생성
+     */
+    public static File createDietPhotoFile(Context context) throws IOException {
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String fileName = "diet_" + timestamp;
+        File storageDir = context.getExternalFilesDir("Pictures");
+        if (storageDir != null && !storageDir.exists()) {
+            storageDir.mkdirs();
+        }
+        return File.createTempFile(fileName, ".jpg", storageDir);
+    }
+
+    /**
+     * File → FileProvider content URI
+     */
+    public static Uri toContentUri(Context context, File file) {
+        String authority = context.getPackageName() + AUTHORITY_SUFFIX;
+        return FileProvider.getUriForFile(context, authority, file);
+    }
+
+    /**
+     * Uri → persisted String (저장용)
+     */
+    public static String toPersisted(Uri uri) {
+        if (uri == null) return null;
+        return uri.toString();
+    }
+
+    /**
+     * persisted String → Uri
+     */
+    public static Uri fromPersisted(String persisted) {
+        if (persisted == null || persisted.isEmpty()) return null;
+        return Uri.parse(persisted);
+    }
+
+    /**
+     * 우리가 만든 로컬 파일이면 삭제. content://fileprovider 경로만 삭제 대상.
+     * 갤러리 content URI(media store)는 무시.
+     */
+    public static void deleteIfLocal(Context context, String persisted) {
+        if (persisted == null || persisted.isEmpty()) return;
+        String authority = context.getPackageName() + AUTHORITY_SUFFIX;
+        Uri uri = Uri.parse(persisted);
+        // fileprovider URI인 경우만 삭제
+        if (authority.equals(uri.getAuthority())) {
+            // FileProvider URI → 실제 파일 경로 역산 불가, Pictures 디렉토리에서 파일명으로 찾기
+            String path = uri.getPath(); // /diet_photos/diet_xxx.jpg
+            if (path != null) {
+                String fileName = new File(path).getName();
+                File storageDir = context.getExternalFilesDir("Pictures");
+                if (storageDir != null) {
+                    File target = new File(storageDir, fileName);
+                    if (target.exists()) {
+                        target.delete();
+                    }
+                }
+            }
+        }
+    }
+}

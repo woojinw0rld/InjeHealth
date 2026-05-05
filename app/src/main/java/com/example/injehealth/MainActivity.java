@@ -16,10 +16,6 @@ public class MainActivity extends AppCompatActivity {
     private MenuFragment menuFragment;
     private ExerciseCatalogFragment exerciseFragment;
 
-    private HistoryListActivity historyListActivity;
-
-    private HistoryDetailActivity historyDetailActivity;
-
     private Fragment activeFragment;
 
     @Override
@@ -37,9 +33,6 @@ public class MainActivity extends AppCompatActivity {
         myinbodyFragment = new MyinbodyFragment();
         menuFragment     = new MenuFragment();
         exerciseFragment = new ExerciseCatalogFragment();
-        historyListActivity = new HistoryListActivity();
-        historyDetailActivity = new HistoryDetailActivity();
-
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, exerciseFragment).hide(exerciseFragment)
                 .add(R.id.fragment_container, menuFragment).hide(menuFragment)

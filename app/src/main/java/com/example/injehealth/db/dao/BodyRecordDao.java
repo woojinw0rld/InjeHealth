@@ -21,9 +21,6 @@ public interface BodyRecordDao {
     @Delete
     void delete(BodyRecord record);
 
-    @Query("SELECT * FROM body_records ORDER BY date DESC")
+    @Query("SELECT * FROM body_records ORDER BY recorded_at DESC")
     List<BodyRecord> getAll();
-
-    @Query("SELECT * FROM body_records WHERE date = :date LIMIT 1")
-    BodyRecord getByDate(String date);
 }
