@@ -92,8 +92,8 @@ public class MyinbodyFragment extends Fragment {
         setupChart();
         setupRecyclerView();
 
-        // 추가 버튼
-        view.findViewById(R.id.btn_add).setOnClickListener(v ->
+        // 추가 버튼 (FAB)
+        view.findViewById(R.id.fab_add).setOnClickListener(v ->
                 new AddBodyRecordSheet().show(getChildFragmentManager(), "AddBodyRecord"));
 
         // DB에서 기록 로드

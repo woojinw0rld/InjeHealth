@@ -55,6 +55,7 @@ public class AddBodyRecordSheet extends BottomSheetDialogFragment {
             ).show();
         });
 
+        view.findViewById(R.id.ivClose).setOnClickListener(v -> dismiss());
         view.findViewById(R.id.btnCancel).setOnClickListener(v -> dismiss());
         view.findViewById(R.id.btnSave).setOnClickListener(v -> saveRecord(view));
     }

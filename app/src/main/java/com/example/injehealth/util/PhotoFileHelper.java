@@ -53,6 +53,24 @@ public class PhotoFileHelper {
     }
 
     /**
+     * Uri → getFilesDir()/<subdir>/<fileName> 복사 후 상대경로 반환.
+     * 운동/식단 사진 저장 공통 메서드.
+     */
+    public static String copyToSubdir(Context context, android.net.Uri uri, String subdir, String fileName) throws java.io.IOException {
+        java.io.File dir = new java.io.File(context.getFilesDir(), subdir);
+        if (!dir.exists()) dir.mkdirs();
+        java.io.File dest = new java.io.File(dir, fileName);
+        try (java.io.InputStream in = context.getContentResolver().openInputStream(uri);
+             java.io.OutputStream out = new java.io.FileOutputStream(dest)) {
+            if (in == null) throw new java.io.IOException("Cannot open URI: " + uri);
+            byte[] buf = new byte[4096];
+            int len;
+            while ((len = in.read(buf)) > 0) out.write(buf, 0, len);
+        }
+        return subdir + "/" + fileName;
+    }
+
+    /**
      * 우리가 만든 로컬 파일이면 삭제. content://fileprovider 경로만 삭제 대상.
      * 갤러리 content URI(media store)는 무시.
      */

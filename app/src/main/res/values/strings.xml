@@ -82,9 +82,9 @@
     <string name="diet_add_unit_g">g</string>
     <string name="diet_add_unit_ml">ml</string>
     <string name="diet_add_unit_count">개</string>
-    <string name="diet_add_kcal_hint">칼로리(kcal)</string>
-    <string name="diet_add_carbs_hint">탄수화물(g)</string>
-    <string name="diet_add_protein_hint">단백질(g)</string>
+    <string name="diet_add_kcal_hint">kcal</string>
+    <string name="diet_add_carbs_hint">탄수(g)</string>
+    <string name="diet_add_protein_hint">단백(g)</string>
     <string name="diet_add_fat_hint">지방(g)</string>
     <string name="diet_add_save">저장</string>
     <string name="diet_add_cancel">취소</string>

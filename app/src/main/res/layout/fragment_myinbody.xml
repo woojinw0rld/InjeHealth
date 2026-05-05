@@ -249,14 +249,6 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/btn_add"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="+"
-                        android:textColor="@color/primary"
-                        android:textSize="22sp" />
                 </LinearLayout>
 
                 <!-- 빈 상태 -->
@@ -317,5 +309,17 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_plus"
+        app:backgroundTint="@color/primary"
+        app:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

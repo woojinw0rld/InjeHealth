@@ -1,139 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@color/surface">
 
-    <!-- 타이틀 -->
-    <TextView
+    <!-- 1. 헤더 -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/diet_add_meal_title"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/text_primary"
-        android:layout_marginBottom="16dp" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/diet_add_meal_title"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary" />
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_close"
+            app:tint="@color/text_secondary" />
+    </LinearLayout>
 
-    <!-- 시간 행 -->
+    <!-- 2. 기록 시간 섹션 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/diet_add_meal_time_label"
+        android:textSize="13sp"
+        android:textColor="@color/text_secondary"
+        android:layout_marginTop="16dp" />
+    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginBottom="12dp">
-
+        android:layout_marginTop="8dp">
         <TextView
+            android:id="@+id/tvSelectedTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/diet_add_meal_time_label"
-            android:textColor="@color/text_primary" />
-
-        <TextView
-            android:id="@+id/tvSelectedTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/diet_meal_time_placeholder"
-            android:textColor="@color/primary" />
-
+            android:textColor="@color/primary"
+            android:textSize="15sp" />
         <TextView
             android:id="@+id/btnChangeTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:text="@string/diet_add_meal_time_change"
+            android:background="@drawable/bg_card_border"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="6dp"
             android:textColor="@color/primary"
-            android:padding="4dp" />
+            android:textSize="13sp" />
     </LinearLayout>
 
-    <!-- 메모 입력 -->
+    <!-- 3. 메모 섹션 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="메모"
+        android:textSize="13sp"
+        android:textColor="@color/text_secondary"
+        android:layout_marginTop="12dp" />
+
     <EditText
         android:id="@+id/etMemo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_card_border"
+        android:padding="12dp"
         android:hint="@string/diet_add_meal_memo_hint"
         android:inputType="text"
         android:textColor="@color/text_primary"
-        android:background="@drawable/bg_input_field"
-        android:padding="10dp"
-        android:layout_marginBottom="12dp" />
+        android:textColorHint="@color/text_disabled"
+        android:layout_marginTop="4dp" />
 
-    <!-- 사진 영역 -->
-    <LinearLayout
+    <!-- 4. 사진 섹션 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사진"
+        android:textSize="13sp"
+        android:textColor="@color/text_secondary"
+        android:layout_marginTop="12dp" />
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="12dp">
+        android:layout_marginTop="4dp">
 
-        <!-- 사진 썸네일 (선택 후 표시) -->
         <ImageView
             android:id="@+id/ivPhotoPreview"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:scaleType="centerCrop"
             android:background="@drawable/bg_photo_thumb"
-            android:importantForAccessibility="no"
             android:visibility="gone" />
 
-        <!-- 사진 버튼 행 -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/llPhotoHint"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="4dp">
-
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible">
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_camera"
+                app:tint="@color/text_disabled" />
             <TextView
-                android:id="@+id/btnPhotoCamera"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/diet_add_meal_photo_camera"
-                android:textColor="@color/primary"
-                android:gravity="center"
-                android:padding="8dp" />
-
-            <TextView
-                android:id="@+id/btnPhotoGallery"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/diet_add_meal_photo_gallery"
-                android:textColor="@color/primary"
-                android:gravity="center"
-                android:padding="8dp" />
-
-            <TextView
-                android:id="@+id/btnPhotoRemove"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/diet_add_meal_photo_remove"
-                android:textColor="@color/accent"
-                android:gravity="center"
-                android:padding="8dp"
-                android:visibility="gone" />
+                android:text="사진 추가"
+                android:textSize="13sp"
+                android:textColor="@color/text_disabled"
+                android:layout_marginTop="8dp" />
         </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp">
+        <TextView
+            android:id="@+id/btnPhotoCamera"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/diet_add_meal_photo_camera"
+            android:textColor="@color/primary"
+            android:gravity="center"
+            android:background="@drawable/bg_card_border"
+            android:padding="10dp" />
+        <TextView
+            android:id="@+id/btnPhotoGallery"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/diet_add_meal_photo_gallery"
+            android:textColor="@color/primary"
+            android:gravity="center"
+            android:background="@drawable/bg_card_border"
+            android:padding="10dp"
+            android:layout_marginStart="8dp" />
+        <TextView
+            android:id="@+id/btnPhotoRemove"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/diet_add_meal_photo_remove"
+            android:textColor="@color/accent"
+            android:gravity="center"
+            android:background="@drawable/bg_card_border"
+            android:padding="10dp"
+            android:layout_marginStart="8dp"
+            android:visibility="gone" />
     </LinearLayout>
 
-    <!-- 음식 섹션 타이틀 -->
+    <!-- 5. 음식 섹션 -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/diet_add_meal_food_section_title"
-        android:textStyle="bold"
-        android:textColor="@color/text_primary"
-        android:layout_marginBottom="8dp" />
+        android:textSize="13sp"
+        android:textColor="@color/text_secondary"
+        android:layout_marginTop="12dp" />
 
-    <!-- 음식 목록 컨테이너 (동적으로 추가) -->
     <LinearLayout
         android:id="@+id/containerFoodItems"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        android:layout_marginTop="4dp" />
 
-    <!-- 음식 추가 버튼 -->
     <TextView
         android:id="@+id/btnAddFood"
         android:layout_width="match_parent"
@@ -141,16 +193,16 @@
         android:text="@string/diet_add_meal_food_add"
         android:textColor="@color/primary"
         android:gravity="center"
+        android:background="@drawable/bg_card_border"
         android:padding="12dp"
-        android:layout_marginTop="4dp" />
+        android:layout_marginTop="8dp" />
 
-    <!-- 저장/취소 버튼 -->
+    <!-- 6. 버튼 행 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="16dp">
-
+        android:layout_marginTop="24dp">
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="0dp"
@@ -158,14 +210,21 @@
             android:layout_weight="1"
             android:text="@string/diet_add_cancel"
             android:layout_marginEnd="8dp"
-            style="@style/Widget.AppCompat.Button.Borderless" />
-
+            android:background="@drawable/bg_card_border"
+            android:textColor="@color/text_secondary" />
         <Button
             android:id="@+id/btnSave"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/diet_add_save" />
+            android:text="@string/diet_add_save"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white" />
     </LinearLayout>
+
+    <!-- 7. 하단 Space -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
 
 </LinearLayout>

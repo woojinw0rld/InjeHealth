@@ -83,6 +83,7 @@ public class AddMealSheet extends BottomSheetDialogFragment {
                 Glide.with(requireContext()).load(selectedPhotoUri).centerCrop().into(ivPhotoPreview);
                 ivPhotoPreview.setVisibility(View.VISIBLE);
                 btnPhotoRemove.setVisibility(View.VISIBLE);
+                view.findViewById(R.id.llPhotoHint).setVisibility(View.GONE);
             }
         }
 
@@ -113,6 +114,7 @@ public class AddMealSheet extends BottomSheetDialogFragment {
             selectedPhotoUri = null;
             ivPhotoPreview.setVisibility(View.GONE);
             btnPhotoRemove.setVisibility(View.GONE);
+            view.findViewById(R.id.llPhotoHint).setVisibility(View.VISIBLE);
         });
 
         // 음식 추가 버튼 — 첫 번째 음식 행 자동 추가
@@ -120,6 +122,7 @@ public class AddMealSheet extends BottomSheetDialogFragment {
         view.findViewById(R.id.btnAddFood).setOnClickListener(v -> addFoodRow());
 
         // 취소
+        view.findViewById(R.id.ivClose).setOnClickListener(v -> dismiss());
         view.findViewById(R.id.btnCancel).setOnClickListener(v -> dismiss());
 
         // 저장
@@ -135,6 +138,9 @@ public class AddMealSheet extends BottomSheetDialogFragment {
                 .into(ivPhotoPreview);
         ivPhotoPreview.setVisibility(View.VISIBLE);
         btnPhotoRemove.setVisibility(View.VISIBLE);
+        if (getView() != null) {
+            getView().findViewById(R.id.llPhotoHint).setVisibility(View.GONE);
+        }
     }
 
     @Override
