@@ -110,19 +110,7 @@ public class RoutineSetupActivity extends AppCompatActivity {
 
             db.routineDao().deleteByBodyPart(bodyPart);
 
-            List<Routine> routines = new ArrayList<>();
-            for (String name : exerciseNames) {
-                Exercise exercise = db.exerciseDao().getByName(name);
-                Routine routine = new Routine();
-                routine.body_part      = bodyPart;
-                routine.exercise_name  = name;
-                routine.exercise_id    = exercise != null ? exercise.id : 0;
-                routine.default_sets   = 3;
-                routine.default_reps   = 10;
-                routine.default_weight = 0;
-                routines.add(routine);
-            }
-            db.routineDao().insertAll(routines);
+
 
             List<WorkoutLog> logs = new ArrayList<>();
             for (String name : exerciseNames) {
@@ -150,4 +138,29 @@ public class RoutineSetupActivity extends AppCompatActivity {
             });
         });
     }
+    private void setRoutinDB(){
+        Executors.newSingleThreadExecutor().execute(() -> {
+            AppDatabase db = AppDatabase.getInstance(this);
+            List<Routine> routines = new ArrayList<>();
+            List<WorkoutSession> workoutSessionsList = new ArrayList<>();
+            WorkoutSession workoutSession = null;
+            for(WorkoutSession s : workoutSessionsList){
+
+            }
+            for (String name : exerciseNames) {
+                Exercise exercise = db.exerciseDao().getByName(name);
+                Routine routine = new Routine();
+                routine.body_part = bodyPart;
+                routine.exercise_name = name;
+                routine.exercise_id = exercise != null ? exercise.id : 0;
+                routine.default_sets = 3;
+                routine.default_reps = 10;
+                routine.default_weight = 0;
+                routines.add(routine);
+            }
+            db.routineDao().insertAll(routines);
+        });
+
+    }
+
 }
