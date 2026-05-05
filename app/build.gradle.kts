@@ -48,6 +48,12 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
 
+    // Core KTX / Core
+    implementation("androidx.core:core:1.16.0")
+
+    // ViewPager2
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
+
     // RecyclerView
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 
