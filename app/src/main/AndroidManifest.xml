@@ -27,9 +27,6 @@
             android:name=".HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".HistoryListActivity"
-            android:exported="false" />
-        <activity
             android:name=".HistoryDetailActivity"
             android:exported="false" />
     </application>
