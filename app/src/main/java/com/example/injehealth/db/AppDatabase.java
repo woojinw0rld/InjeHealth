@@ -37,7 +37,7 @@ import com.example.injehealth.db.entity.WorkoutSession;
                 DietLog.class,
                 DietItem.class
         },
-        version = 4
+        version = 5
 )
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -117,6 +117,29 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL(
+                "CREATE TABLE body_records_new (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "recorded_at TEXT NOT NULL, " +
+                "weight REAL NOT NULL, " +
+                "muscle_mass REAL NOT NULL, " +
+                "body_fat_mass REAL NOT NULL, " +
+                "body_fat_rate REAL NOT NULL, " +
+                "memo TEXT)"
+            );
+            database.execSQL(
+                "INSERT INTO body_records_new (id, recorded_at, weight, muscle_mass, body_fat_mass, body_fat_rate, memo) " +
+                "SELECT id, date || ' 00:00', weight, muscle_mass, body_fat_mass, body_fat_rate, memo " +
+                "FROM body_records"
+            );
+            database.execSQL("DROP TABLE body_records");
+            database.execSQL("ALTER TABLE body_records_new RENAME TO body_records");
+        }
+    };
+
     public static AppDatabase getInstance(Context context) {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {
@@ -126,7 +149,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                     AppDatabase.class,
                                     "inje_health.db"
                             )
-                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
                             .addCallback(prepopulateCallback)
                             .build();
                 }

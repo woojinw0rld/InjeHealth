@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,7 +40,7 @@ import java.util.concurrent.Executors;
  *
  * - 체중 / 근육량 / 체지방량 / 체지방률 4개 지표 입력 및 관리
  * - 탭 전환으로 원하는 지표의 그래프(MPAndroidChart) 시각화
- * - 통계 카드: 현재값, 전일 대비, 총 변화
+ * - 통계 카드: 현재값, 최근 대비, 총 변화
  * - 기록 내역: RecyclerView (인라인 수정 / 삭제)
  * - 모든 데이터는 Room DB(body_records)에 로컬 저장
  */
@@ -66,20 +64,16 @@ public class MyinbodyFragment extends Fragment {
     // MPAndroidChart 라인 차트
     private LineChart chart;
 
-    // 입력 폼
-    private EditText etWeight, etMuscle, etFatMass, etFatRate;
-    private TextView tvTodayDate;
-
     // 기록 리스트
     private RecyclerView rvRecords;
     private View layoutEmpty;
     private BodyRecordAdapter adapter;
 
-    // DB에서 조회한 전체 기록 (날짜 오름차순)
-    // 예: [{date:"2026-04-01", weight:75.0, ...}, {date:"2026-04-02", weight:74.8, ...}]
+    // DB에서 조회한 전체 기록 (recorded_at 오름차순)
+    // 예: [{recorded_at:"2026-04-01 08:30", weight:75.0, ...}, {recorded_at:"2026-04-02 09:10", weight:74.8, ...}]
     private List<BodyRecord> allRecords = new ArrayList<>();
 
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
 
 
     @Nullable
@@ -98,11 +92,9 @@ public class MyinbodyFragment extends Fragment {
         setupChart();
         setupRecyclerView();
 
-        // 오늘 날짜 표시
-        tvTodayDate.setText(new SimpleDateFormat("yyyy년 M월 d일", Locale.getDefault()).format(new Date()));
-
         // 추가 버튼
-        view.findViewById(R.id.btn_add).setOnClickListener(v -> addRecord());
+        view.findViewById(R.id.btn_add).setOnClickListener(v ->
+                new AddBodyRecordSheet().show(getChildFragmentManager(), "AddBodyRecord"));
 
         // DB에서 기록 로드
         loadRecords();
@@ -114,12 +106,6 @@ public class MyinbodyFragment extends Fragment {
         tvStatDaily = view.findViewById(R.id.tv_stat_daily);
         tvStatTotal = view.findViewById(R.id.tv_stat_total);
         chart = view.findViewById(R.id.chart);
-
-        etWeight = view.findViewById(R.id.et_weight);
-        etMuscle = view.findViewById(R.id.et_muscle);
-        etFatMass = view.findViewById(R.id.et_fat_mass);
-        etFatRate = view.findViewById(R.id.et_fat_rate);
-        tvTodayDate = view.findViewById(R.id.tv_today_date);
 
         rvRecords = view.findViewById(R.id.rv_records);
         layoutEmpty = view.findViewById(R.id.layout_empty);
@@ -235,55 +221,13 @@ public class MyinbodyFragment extends Fragment {
     }
 
     /**
-     * 오늘 기록 추가
-     * - 체중 필수, 나머지 선택
-     * - 같은 날짜 기록이 있으면 덮어쓰기(update)
-     */
-    private void addRecord() {
-        String weightStr = etWeight.getText().toString().trim();
-        if (weightStr.isEmpty()) {
-            Toast.makeText(requireContext(), "체중을 입력해주세요", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        BodyRecord record = new BodyRecord();
-        record.date = dateFormat.format(new Date());
-        record.weight = parseDouble(weightStr);
-        record.muscle_mass = parseDouble(etMuscle.getText().toString().trim());
-        record.body_fat_mass = parseDouble(etFatMass.getText().toString().trim());
-        record.body_fat_rate = parseDouble(etFatRate.getText().toString().trim());
-
-        Executors.newSingleThreadExecutor().execute(() -> {
-            // 같은 날짜 기록이 이미 있으면 업데이트, 없으면 새로 삽입
-            BodyRecord existing = AppDatabase.getInstance(requireContext()).bodyRecordDao().getByDate(record.date);
-            if (existing != null) {
-                record.id = existing.id;
-                AppDatabase.getInstance(requireContext()).bodyRecordDao().update(record);
-            } else {
-                AppDatabase.getInstance(requireContext()).bodyRecordDao().insert(record);
-            }
-
-            requireActivity().runOnUiThread(() -> {
-                if (!isAdded()) return;
-                // 입력 필드 초기화
-                etWeight.setText("");
-                etMuscle.setText("");
-                etFatMass.setText("");
-                etFatRate.setText("");
-                Toast.makeText(requireContext(), "기록이 추가되었습니다", Toast.LENGTH_SHORT).show();
-                loadRecords();
-            });
-        });
-    }
-
-    /**
      * DB에서 전체 기록 로드 → 차트/통계/리스트 갱신
      * - allRecords: 날짜 오름차순 (차트용)
      * - 어댑터에는 역순(최신 먼저) 전달
      */
-    private void loadRecords() {
+    void loadRecords() {
         Executors.newSingleThreadExecutor().execute(() -> {
-            // getAll()은 날짜 DESC → 차트용으로 뒤집어서 ASC로 보관
+            // getAll()은 recorded_at DESC → 차트용으로 뒤집어서 ASC로 보관
             List<BodyRecord> descList = AppDatabase.getInstance(requireContext()).bodyRecordDao().getAll();
             List<BodyRecord> ascList = new ArrayList<>(descList);
             Collections.reverse(ascList); // 오름차순 (오래된 것 → 최신)
@@ -336,8 +280,8 @@ public class MyinbodyFragment extends Fragment {
             float value = getValueForTab(record, currentTab);
             entries.add(new Entry(i, value));
 
-            // 날짜 라벨: "yyyy-MM-dd" → "M/d"
-            labels.add(formatShortDate(record.date));
+            // 날짜 라벨: "yyyy-MM-dd HH:mm" → "M/d"
+            labels.add(formatShortDate(record.recorded_at));
         }
 
         // 라인 데이터셋 스타일 설정 (primary 블루 색상)
@@ -357,11 +301,11 @@ public class MyinbodyFragment extends Fragment {
     }
 
     /**
-     * 통계 카드 갱신 (현재값 / 전일 대비 / 총 변화)
+     * 통계 카드 갱신 (현재값 / 최근 대비 / 총 변화)
      *
      * allRecords 기준:
      * - 현재값 = 마지막 기록의 해당 지표
-     * - 전일 대비 = 마지막 - 마지막에서 두번째
+     * - 최근 대비 = 마지막 - 마지막에서 두번째
      * - 총 변화 = 마지막 - 첫번째
      */
     private void updateStats() {
@@ -376,7 +320,7 @@ public class MyinbodyFragment extends Fragment {
         float current = getValueForTab(allRecords.get(allRecords.size() - 1), currentTab);
         tvStatCurrent.setText(formatStatValue(current));
 
-        // 전일 대비 = 마지막 - (마지막-1)
+        // 최근 대비 = 마지막 - (마지막-1)
         if (allRecords.size() >= 2) {
             float previous = getValueForTab(allRecords.get(allRecords.size() - 2), currentTab);
             float dailyChange = current - previous;
@@ -463,17 +407,5 @@ public class MyinbodyFragment extends Fragment {
         if (change > 0) return ContextCompat.getColor(requireContext(), R.color.accent);
         if (change < 0) return ContextCompat.getColor(requireContext(), R.color.success);
         return ContextCompat.getColor(requireContext(), R.color.text_primary);
-    }
-
-    /**
-     * 문자열 → double 파싱 (빈 문자열이면 0 반환)
-     */
-    private double parseDouble(String text) {
-        if (text == null || text.isEmpty()) return 0;
-        try {
-            return Double.parseDouble(text);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
     }
 }

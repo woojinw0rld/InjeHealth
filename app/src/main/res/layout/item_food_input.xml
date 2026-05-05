@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/diet_add_food_name_hint"
-        android:inputType="text" />
+        android:inputType="text"
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/text_disabled" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,6 +28,8 @@
             android:layout_weight="1"
             android:hint="@string/diet_add_kcal_hint"
             android:inputType="numberDecimal"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_disabled"
             android:layout_marginEnd="4dp" />
 
         <EditText
@@ -35,6 +39,8 @@
             android:layout_weight="1"
             android:hint="@string/diet_add_carbs_hint"
             android:inputType="numberDecimal"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_disabled"
             android:layout_marginEnd="4dp" />
 
         <EditText
@@ -44,6 +50,8 @@
             android:layout_weight="1"
             android:hint="@string/diet_add_protein_hint"
             android:inputType="numberDecimal"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_disabled"
             android:layout_marginEnd="4dp" />
 
         <EditText
@@ -52,6 +60,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/diet_add_fat_hint"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_disabled" />
     </LinearLayout>
 </LinearLayout>

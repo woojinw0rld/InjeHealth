@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:navigationIcon="@drawable/ic_arrow_back"
+        app:titleTextColor="@color/text_primary"
         app:title="@string/diet_day_toolbar_title" />
 
     <!-- 하루 합계 카드 -->
@@ -28,6 +29,7 @@
             android:layout_height="wrap_content"
             android:text="@string/diet_kcal_zero"
             android:textSize="24sp"
+            android:textColor="@color/text_primary"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -41,6 +43,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/text_secondary"
                 android:text="@string/diet_macro_carbs_zero" />
 
             <TextView
@@ -48,6 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/text_secondary"
                 android:text="@string/diet_macro_protein_zero" />
 
             <TextView
@@ -55,6 +59,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/text_secondary"
                 android:text="@string/diet_macro_fat_zero" />
         </LinearLayout>
     </LinearLayout>
@@ -92,6 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/diet_empty_title"
+                android:textColor="@color/text_secondary"
                 android:alpha="0.6" />
         </LinearLayout>
 
@@ -102,8 +108,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
+            android:backgroundTint="@color/primary"
             android:src="@drawable/ic_plus"
             android:contentDescription="@string/diet_day_add_meal"
+            app:tint="@color/white"
             app:fabSize="normal" />
 
     </FrameLayout>

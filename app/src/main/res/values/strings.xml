@@ -133,7 +133,7 @@
     <string name="myinbody_tab_fat_mass">체지방량</string>
     <string name="myinbody_tab_fat_rate">체지방률</string>
     <string name="myinbody_stat_current">현재</string>
-    <string name="myinbody_stat_daily_change">전일 대비</string>
+    <string name="myinbody_stat_daily_change">최근 대비</string>
     <string name="myinbody_stat_total_change">총 변화</string>
     <string name="myinbody_input_title">오늘의 기록</string>
     <string name="myinbody_label_weight">체중</string>

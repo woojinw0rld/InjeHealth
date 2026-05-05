@@ -40,9 +40,9 @@ public class BodyRecordAdapter extends RecyclerView.Adapter<BodyRecordAdapter.Re
     private final List<BodyRecord> items = new ArrayList<>();
     private final OnRecordActionListener listener;
 
-    // 날짜 포맷: "yyyy-MM-dd" → "yyyy년 M월 d일"
-    private final SimpleDateFormat dateFormatIn = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    private final SimpleDateFormat dateFormatOut = new SimpleDateFormat("yyyy년 M월 d일", Locale.getDefault());
+    // 날짜 포맷: "yyyy-MM-dd HH:mm" → "yyyy년 M월 d일 HH:mm"
+    private final SimpleDateFormat dateFormatIn = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+    private final SimpleDateFormat dateFormatOut = new SimpleDateFormat("yyyy년 M월 d일 HH:mm", Locale.getDefault());
 
     public BodyRecordAdapter(OnRecordActionListener listener) {
         this.listener = listener;
@@ -128,7 +128,7 @@ public class BodyRecordAdapter extends RecyclerView.Adapter<BodyRecordAdapter.Re
             layoutEdit.setVisibility(View.GONE);
 
             // 날짜 포맷
-            String formattedDate = formatDate(record.date);
+            String formattedDate = formatDate(record.recorded_at);
             tvDate.setText(formattedDate);
             tvEditDate.setText(formattedDate);
 
@@ -182,7 +182,7 @@ public class BodyRecordAdapter extends RecyclerView.Adapter<BodyRecordAdapter.Re
         }
 
         /**
-         * "yyyy-MM-dd" → "yyyy년 M월 d일" 변환
+         * "yyyy-MM-dd HH:mm" → "yyyy년 M월 d일 HH:mm" 변환
          */
         private String formatDate(String dateStr) {
             if (dateStr == null) return "";
