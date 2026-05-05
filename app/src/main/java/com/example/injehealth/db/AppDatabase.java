@@ -1,6 +1,7 @@
 package com.example.injehealth.db;
 
 import android.content.Context;
+import android.database.Cursor;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -162,6 +163,73 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
+            seedDefaultExercises(db);
+        }
+
+        @Override
+        public void onOpen(@NonNull SupportSQLiteDatabase db) {
+            super.onOpen(db);
+            // 방어적 재시딩: 기본 운동이 28개 미만이면 재삽입
+            Cursor c = db.query("SELECT COUNT(*) FROM exercises WHERE is_custom=0", new Object[0]);
+            int count = 0;
+            if (c.moveToFirst()) count = c.getInt(0);
+            c.close();
+            if (count < 28) {
+                db.execSQL("DELETE FROM exercises WHERE is_custom=0");
+                seedDefaultExercises(db);
+            }
         }
     };
+
+    private static void seedDefaultExercises(@NonNull SupportSQLiteDatabase db) {
+        db.beginTransaction();
+        try {
+            // chest (가슴) 4개
+            insertExercise(db, "벤치프레스",           "chest",     "💪");
+            insertExercise(db, "인클라인 벤치프레스",   "chest",     "💪");
+            insertExercise(db, "덤벨 플라이",           "chest",     "💪");
+            insertExercise(db, "케이블 크로스오버",      "chest",     "💪");
+            // back (등) 4개
+            insertExercise(db, "데드리프트",            "back",      "💪");
+            insertExercise(db, "랫풀다운",              "back",      "💪");
+            insertExercise(db, "바벨 로우",             "back",      "💪");
+            insertExercise(db, "시티드 로우",           "back",      "💪");
+            // legs (하체) 4개
+            insertExercise(db, "스쿼트",               "legs",      "🦵");
+            insertExercise(db, "레그프레스",            "legs",      "🦵");
+            insertExercise(db, "레그컬",               "legs",      "🦵");
+            insertExercise(db, "레그익스텐션",          "legs",      "🦵");
+            // shoulders (어깨) 4개
+            insertExercise(db, "오버헤드 프레스",       "shoulders", "💪");
+            insertExercise(db, "사이드 레터럴 레이즈",  "shoulders", "💪");
+            insertExercise(db, "프론트 레이즈",         "shoulders", "💪");
+            insertExercise(db, "리어 델트 플라이",      "shoulders", "💪");
+            // arms (팔) 4개
+            insertExercise(db, "바벨컬",               "arms",      "💪");
+            insertExercise(db, "트라이셉스 익스텐션",   "arms",      "💪");
+            insertExercise(db, "해머컬",               "arms",      "💪");
+            insertExercise(db, "케이블 푸시다운",       "arms",      "💪");
+            // cardio (유산소) 8개
+            insertExercise(db, "러닝",                 "cardio",    "🏃");
+            insertExercise(db, "사이클",               "cardio",    "🚴");
+            insertExercise(db, "로잉머신",             "cardio",    "🚣");
+            insertExercise(db, "계단오르기",            "cardio",    "🪜");
+            insertExercise(db, "버피",                 "cardio",    "🤸");
+            insertExercise(db, "점핑잭",               "cardio",    "🤸");
+            insertExercise(db, "줄넘기",               "cardio",    "🪢");
+            insertExercise(db, "마운틴 클라이머",       "cardio",    "🧗");
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    private static void insertExercise(@NonNull SupportSQLiteDatabase db,
+                                       String name, String bodyPart, String emoji) {
+        db.execSQL(
+            "INSERT INTO exercises (name, body_part, image_type, image_ref, is_custom, description) " +
+            "VALUES (?, ?, 'emoji', ?, 0, NULL)",
+            new Object[]{name, bodyPart, emoji}
+        );
+    }
 }
