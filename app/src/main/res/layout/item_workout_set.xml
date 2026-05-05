@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_marginBottom="8dp">
+
+    <!-- 세트 행 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- 세트 번호 원 -->
+        <TextView
+            android:id="@+id/tv_set_number"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/bg_icon_blue_circle"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="#9E9E9E"
+            android:textSize="13sp" />
+
+        <!-- 목표 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="목표"
+                android:textColor="#9E9E9E"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_planned"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10회 × 60kg"
+                android:textColor="#E0E0E0"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+        <!-- 실제 입력 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_actual_reps"
+                android:layout_width="48dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_input_field"
+                android:gravity="center"
+                android:hint="횟수"
+                android:inputType="number"
+                android:textColor="#E0E0E0"
+                android:textColorHint="#616161"
+                android:textSize="13sp"
+                android:padding="4dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="2dp"
+                android:text="회 ×"
+                android:textColor="#9E9E9E"
+                android:textSize="11sp" />
+
+            <EditText
+                android:id="@+id/et_actual_weight"
+                android:layout_width="48dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_input_field"
+                android:gravity="center"
+                android:hint="무게"
+                android:inputType="numberDecimal"
+                android:textColor="#E0E0E0"
+                android:textColorHint="#616161"
+                android:textSize="13sp"
+                android:padding="4dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="kg"
+                android:textColor="#9E9E9E"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+        <!-- 완료 체크 버튼 -->
+        <ImageButton
+            android:id="@+id/btn_check"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/bg_icon_blue_circle"
+            app:srcCompat="@drawable/ic_check"
+            app:tint="#616161"
+            xmlns:app="http://schemas.android.com/apk/res-auto" />
+        <ImageButton
+            android:id="@+id/btn_delete_set"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_close"
+            app:tint="#9E9E9E" />
+
+    </LinearLayout>
+
+    <!-- 휴식 타이머 (완료 시 표시) -->
+    <LinearLayout
+        android:id="@+id/ll_rest_timer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/bg_stat_orange"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="6dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/ic_today"
+            android:contentDescription="@null"
+            app:tint="#FF7043"
+            xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+        <TextView
+            android:id="@+id/tv_rest_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:text="휴식 시간: 1:00"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            />
+        <ImageButton
+            android:id="@+id/btn_time_add"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_add"
+            app:tint="#FFFFFF"
+            android:contentDescription="@null" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

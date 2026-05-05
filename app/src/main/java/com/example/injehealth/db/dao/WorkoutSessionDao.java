@@ -18,6 +18,10 @@ public interface WorkoutSessionDao {
     @Update
     void update(WorkoutSession session);
 
+    @Query("DELETE FROM workout_sessions WHERE id = :id")
+    void deleteById(int id);
+
+
     @Query("SELECT * FROM workout_sessions ORDER BY date DESC")
     List<WorkoutSession> getAll();
 

@@ -28,4 +28,7 @@ public interface ExerciseDao {
 
     @Query("SELECT * FROM exercises WHERE is_custom = 1")
     List<Exercise> getCustom();
+
+    @Query("SELECT * FROM exercises WHERE name = :name LIMIT 1")
+    Exercise getByName(String name);
 }

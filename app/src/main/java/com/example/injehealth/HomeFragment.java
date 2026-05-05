@@ -97,8 +97,11 @@ public class HomeFragment extends Fragment {
 
         for (int i = 0; i < chipIds.length; i++) {
             String part = parts[i];
-            view.findViewById(chipIds[i]).setOnClickListener(v ->
-                    Toast.makeText(requireContext(), part + " 선택됨", Toast.LENGTH_SHORT).show());
+            view.findViewById(chipIds[i]).setOnClickListener(v -> {
+                Intent intent = new Intent(requireContext(), RoutineSetupActivity.class);
+                intent.putExtra(RoutineSetupActivity.EXTRA_BODY_PART, part);
+                startActivity(intent);
+            });
         }
         /** bnt_exercise_catalog :: 전체 운동 리스트*/
         view.findViewById(R.id.btn_exercise_catalog).setOnClickListener(v ->

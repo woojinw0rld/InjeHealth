@@ -27,6 +27,9 @@ public interface RoutineDao {
     @Query("SELECT * FROM routines WHERE body_part = :bodyPart")
     List<Routine> getByBodyPart(String bodyPart);
 
+    @Query("SELECT * FROM routines ORDER BY body_part, id")
+    List<Routine> getAll();
+
     @Query("DELETE FROM routines WHERE body_part = :bodyPart")
     void deleteByBodyPart(String bodyPart);
 }

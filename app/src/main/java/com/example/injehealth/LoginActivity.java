@@ -33,10 +33,19 @@ public class LoginActivity extends AppCompatActivity {
         btnFemale = findViewById(R.id.btn_female);
         btnStart = findViewById(R.id.btn_start);
 
-        setupGenderToggle();
-        setupInputWatcher();
-
-        btnStart.setOnClickListener(v -> saveAndProceed());
+        Executors.newSingleThreadExecutor().execute(() -> {
+            User existing = AppDatabase.getInstance(this).userDao().getUser();
+            runOnUiThread(() -> {
+                if (existing != null) {
+                    startActivity(new Intent(this, MainActivity.class));
+                    finish();
+                    return;
+                }
+                setupGenderToggle();
+                setupInputWatcher();
+                btnStart.setOnClickListener(v -> saveAndProceed());
+            });
+        });
     }
 
     private void setupGenderToggle() { //버튼clickListener 버튼 클릭시 색변경

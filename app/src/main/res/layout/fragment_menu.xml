@@ -125,6 +125,38 @@
             android:layout_marginHorizontal="20dp"
             android:background="#1FE0E0E0" />
 
+        <!-- 루틴 관리 -->
+        <LinearLayout
+            android:id="@+id/nav_routine_list"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                app:srcCompat="@drawable/ic_fitness_center"
+                app:tint="#9E9E9E" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="루틴 관리"
+                android:textColor="#E0E0E0"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="#1FE0E0E0" />
+
         <!-- 설정 -->
         <LinearLayout
             android:id="@+id/nav_settings"

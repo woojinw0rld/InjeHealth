@@ -70,7 +70,7 @@
                 android:id="@+id/et_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
+                android:inputType="text"
                 android:hint="홍길동"
                 android:textColorHint="@color/text_disabled"
                 android:textColor="@color/text_primary"

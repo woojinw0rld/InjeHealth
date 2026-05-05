@@ -107,10 +107,40 @@ public abstract class AppDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    private static void insertDefaultExercises(@NonNull SupportSQLiteDatabase db) {
+        String[] exercises = {
+            // 가슴
+            "('벤치프레스','가슴',0)", "('인클라인 벤치프레스','가슴',0)", "('덤벨 플라이','가슴',0)",
+            // 등
+            "('풀업','등',0)", "('랫 풀다운','등',0)", "('바벨 로우','등',0)",
+            // 하체
+            "('스쿼트','하체',0)", "('레그프레스','하체',0)", "('런지','하체',0)",
+            // 어깨
+            "('오버헤드프레스','어깨',0)", "('사이드 레터럴 레이즈','어깨',0)", "('프론트 레이즈','어깨',0)",
+            // 팔
+            "('바벨 컬','팔',0)", "('트라이셉스 딥스','팔',0)", "('해머 컬','팔',0)",
+            // 유산소
+            "('트레드밀','유산소',0)", "('사이클','유산소',0)", "('로잉머신','유산소',0)"
+        };
+        for (String val : exercises) {
+            db.execSQL("INSERT INTO exercises (name, body_part, is_custom) VALUES " + val);
+        }
+    }
+
     private static final RoomDatabase.Callback prepopulateCallback = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
+            insertDefaultExercises(db);
+        }
+
+        @Override
+        public void onOpen(@NonNull SupportSQLiteDatabase db) {
+            super.onOpen(db);
+            android.database.Cursor c = db.query("SELECT COUNT(*) FROM exercises");
+            boolean isEmpty = c.moveToFirst() && c.getInt(0) == 0;
+            c.close();
+            if (isEmpty) insertDefaultExercises(db);
         }
     };
 }

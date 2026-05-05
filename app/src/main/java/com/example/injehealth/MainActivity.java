@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
+    /**화면 바꿀 때*/
     public void switchToTab(int tabId) {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
         bottomNav.setSelectedItemId(tabId);

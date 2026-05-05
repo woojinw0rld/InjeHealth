@@ -12,7 +12,9 @@ import java.util.List;
 @Dao
 public interface WorkoutLogDao {
     @Insert
-    void insert(WorkoutLog log);
+    long insert(WorkoutLog log);
+    @Query("DELETE FROM workout_logs WHERE id = :id")
+    void deleteById(int id);
 
     @Insert
     void insertAll(List<WorkoutLog> logs);

@@ -38,6 +38,9 @@ public class MenuFragment extends Fragment {
         view.findViewById(R.id.nav_myinbody).setOnClickListener(v ->
                 switchToTab(R.id.tab_myinbody));
 
+        view.findViewById(R.id.nav_routine_list).setOnClickListener(v ->
+                startActivity(new Intent(requireContext(), RoutineListActivity.class)));
+
         view.findViewById(R.id.nav_settings).setOnClickListener(v ->
                 Toast.makeText(requireContext(), "설정 (준비중)", Toast.LENGTH_SHORT).show());
 
