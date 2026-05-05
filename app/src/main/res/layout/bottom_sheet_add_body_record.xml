@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/surface">
+
+    <!-- 타이틀 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/myinbody_input_title"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        android:layout_marginBottom="16dp" />
+
+    <!-- 시간 행 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="기록 시간"
+            android:textColor="@color/text_primary" />
+
+        <TextView
+            android:id="@+id/tvSelectedTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textColor="@color/primary" />
+
+        <TextView
+            android:id="@+id/btnChangeTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="변경"
+            android:textColor="@color/primary"
+            android:padding="4dp" />
+    </LinearLayout>
+
+    <!-- 체중 입력 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:gravity="center_vertical" android:orientation="horizontal" android:layout_marginBottom="8dp">
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+            android:text="@string/myinbody_label_weight" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+        <EditText android:id="@+id/etWeight" android:layout_width="0dp" android:layout_height="44dp"
+            android:layout_weight="1" android:background="@drawable/bg_input_field"
+            android:hint="@string/myinbody_hint_weight" android:inputType="numberDecimal"
+            android:textColor="@color/text_primary"
+            android:paddingHorizontal="12dp" android:textSize="14sp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginStart="8dp" android:text="kg" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+    </LinearLayout>
+
+    <!-- 근육량 입력 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:gravity="center_vertical" android:orientation="horizontal" android:layout_marginBottom="8dp">
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+            android:text="@string/myinbody_label_muscle" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+        <EditText android:id="@+id/etMuscle" android:layout_width="0dp" android:layout_height="44dp"
+            android:layout_weight="1" android:background="@drawable/bg_input_field"
+            android:hint="@string/myinbody_hint_muscle" android:inputType="numberDecimal"
+            android:textColor="@color/text_primary"
+            android:paddingHorizontal="12dp" android:textSize="14sp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginStart="8dp" android:text="kg" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+    </LinearLayout>
+
+    <!-- 체지방량 입력 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:gravity="center_vertical" android:orientation="horizontal" android:layout_marginBottom="8dp">
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+            android:text="@string/myinbody_label_fat_mass" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+        <EditText android:id="@+id/etFatMass" android:layout_width="0dp" android:layout_height="44dp"
+            android:layout_weight="1" android:background="@drawable/bg_input_field"
+            android:hint="@string/myinbody_hint_fat_mass" android:inputType="numberDecimal"
+            android:textColor="@color/text_primary"
+            android:paddingHorizontal="12dp" android:textSize="14sp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginStart="8dp" android:text="kg" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+    </LinearLayout>
+
+    <!-- 체지방률 입력 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:gravity="center_vertical" android:orientation="horizontal" android:layout_marginBottom="16dp">
+        <TextView android:layout_width="80dp" android:layout_height="wrap_content"
+            android:text="@string/myinbody_label_fat_rate" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+        <EditText android:id="@+id/etFatRate" android:layout_width="0dp" android:layout_height="44dp"
+            android:layout_weight="1" android:background="@drawable/bg_input_field"
+            android:hint="@string/myinbody_hint_fat_rate" android:inputType="numberDecimal"
+            android:textColor="@color/text_primary"
+            android:paddingHorizontal="12dp" android:textSize="14sp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginStart="8dp" android:text="%" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+    </LinearLayout>
+
+    <!-- 저장/취소 버튼 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button android:id="@+id/btnCancel" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="취소" android:layout_marginEnd="8dp"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+        <Button android:id="@+id/btnSave" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="저장"/>
+    </LinearLayout>
+
+</LinearLayout>

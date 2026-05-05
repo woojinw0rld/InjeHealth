@@ -13,6 +13,7 @@
         android:text="@string/diet_add_meal_title"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="@color/text_primary"
         android:layout_marginBottom="16dp" />
 
     <!-- 시간 행 -->
@@ -27,7 +28,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/diet_add_meal_time_label" />
+            android:text="@string/diet_add_meal_time_label"
+            android:textColor="@color/text_primary" />
 
         <TextView
             android:id="@+id/tvSelectedTime"
@@ -53,6 +55,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/diet_add_meal_memo_hint"
         android:inputType="text"
+        android:textColor="@color/text_primary"
         android:background="@drawable/bg_input_field"
         android:padding="10dp"
         android:layout_marginBottom="12dp" />
@@ -120,6 +123,7 @@
         android:layout_height="wrap_content"
         android:text="@string/diet_add_meal_food_section_title"
         android:textStyle="bold"
+        android:textColor="@color/text_primary"
         android:layout_marginBottom="8dp" />
 
     <!-- 음식 목록 컨테이너 (동적으로 추가) -->
