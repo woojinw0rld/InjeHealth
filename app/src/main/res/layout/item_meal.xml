@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_meal_card"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginTop="8dp"
+    android:padding="12dp">
+
+    <!-- 상단: 시간 + 총 칼로리 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_clock"
+            android:alpha="0.6"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            android:id="@+id/tvMealTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            android:text="@string/diet_meal_time_placeholder" />
+
+        <TextView
+            android:id="@+id/tvMealKcal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="@string/diet_kcal_zero" />
+
+        <ImageView
+            android:id="@+id/ivMealMore"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_more"
+            android:contentDescription="@string/diet_meal_more_desc" />
+    </LinearLayout>
+
+    <!-- 탄/단/지 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            android:id="@+id/tvMealCarbs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:text="@string/diet_macro_carbs_zero" />
+
+        <TextView
+            android:id="@+id/tvMealProtein"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:text="@string/diet_macro_protein_zero" />
+
+        <TextView
+            android:id="@+id/tvMealFat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:text="@string/diet_macro_fat_zero" />
+    </LinearLayout>
+
+    <!-- 메모 (있을 때만 표시) -->
+    <TextView
+        android:id="@+id/tvMealMemo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
+    <!-- 사진 썸네일 (있을 때만 표시) -->
+    <ImageView
+        android:id="@+id/ivMealPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_photo_thumb"
+        android:scaleType="centerCrop"
+        android:importantForAccessibility="no"
+        android:visibility="gone" />
+
+    <!-- 사진 추가 버튼 (사진 없을 때 표시) -->
+    <TextView
+        android:id="@+id/btnAddMealPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/diet_photo_add"
+        android:textColor="@color/primary"
+        android:textSize="13sp"
+        android:visibility="visible" />
+
+</LinearLayout>

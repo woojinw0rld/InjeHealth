@@ -63,12 +63,18 @@ public class LoginActivity extends AppCompatActivity {
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(Editable s) {
+                String ageStr = etAge.getText().toString().trim();
+                boolean ageValid = false;
+                if (!ageStr.isEmpty()) {
+                    try {
+                        int age = Integer.parseInt(ageStr);
+                        ageValid = age > 1 && age < 90;
+                    } catch (NumberFormatException ignored) {}
+                }
                 boolean filled = !etWeight.getText().toString().trim().isEmpty()
                         && !etHeight.getText().toString().trim().isEmpty()
-                        && !etAge.getText().toString().trim().isEmpty()
                         && !etName.getText().toString().trim().isEmpty()
-                        && Integer.parseInt(etAge.getText().toString()) > 1
-                        && Integer.parseInt(etAge.getText().toString()) < 90;
+                        && ageValid;
                 btnStart.setEnabled(filled);
             }
         };
