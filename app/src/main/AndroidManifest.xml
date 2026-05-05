@@ -37,9 +37,6 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
-            android:exported="false" />
-        <activity
             android:name=".RoutineSetupActivity"
             android:exported="false" />
         <activity
@@ -50,9 +47,6 @@
             android:exported="false" />
         <activity
             android:name=".WorkoutDoneActivity"
-            android:exported="false" />
-        <activity
-            android:name=".HistoryListActivity"
             android:exported="false" />
         <activity
             android:name=".HistoryDetailActivity"

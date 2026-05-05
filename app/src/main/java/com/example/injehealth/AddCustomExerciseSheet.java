@@ -41,7 +41,7 @@ public class AddCustomExerciseSheet extends BottomSheetDialogFragment {
 
     // 부위 버튼 목록
     private final List<TextView> bodyPartBtns = new ArrayList<>();
-    private final String[] bodyPartKeys = {"chest", "back", "legs", "shoulders", "arms", "cardio"};
+    private final String[] bodyPartKeys = {"가슴", "등", "하체", "어깨", "팔", "유산소"};
 
     @Nullable
     @Override

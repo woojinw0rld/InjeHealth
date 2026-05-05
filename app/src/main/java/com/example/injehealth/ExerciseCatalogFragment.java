@@ -93,7 +93,7 @@ public class ExerciseCatalogFragment extends Fragment {
         chips.add(chipArms);
         chips.add(chipCardio);
 
-        String[] filterKeys = {"all", "chest", "back", "legs", "shoulders", "arms", "cardio"};
+        String[] filterKeys = {"all", "가슴", "등", "하체", "어깨", "팔", "유산소"};
         for (int i = 0; i < chips.size(); i++) {
             final String key = filterKeys[i];
             chips.get(i).setOnClickListener(v -> {

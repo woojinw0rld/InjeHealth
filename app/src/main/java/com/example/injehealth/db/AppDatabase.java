@@ -185,39 +185,42 @@ public abstract class AppDatabase extends RoomDatabase {
         db.beginTransaction();
         try {
             // chest (가슴) 4개
-            insertExercise(db, "벤치프레스",           "chest",     "💪");
-            insertExercise(db, "인클라인 벤치프레스",   "chest",     "💪");
-            insertExercise(db, "덤벨 플라이",           "chest",     "💪");
-            insertExercise(db, "케이블 크로스오버",      "chest",     "💪");
+            insertExercise(db, "벤치프레스",           "가슴",     "💪");
+            insertExercise(db, "인클라인 벤치프레스",   "가슴",     "💪");
+            insertExercise(db, "덤벨 플라이",           "가슴",     "💪");
+            insertExercise(db, "케이블 크로스오버",      "가슴",     "💪");
+            insertExercise(db, "디클라인 벤치프레스",      "가슴",     "💪");
+            insertExercise(db, "덤벨 벤치프레스",      "가슴",        "💪");
+            insertExercise(db, "인클라인 덤벨 벤치프레스","가슴",      "💪");
             // back (등) 4개
-            insertExercise(db, "데드리프트",            "back",      "💪");
-            insertExercise(db, "랫풀다운",              "back",      "💪");
-            insertExercise(db, "바벨 로우",             "back",      "💪");
-            insertExercise(db, "시티드 로우",           "back",      "💪");
+            insertExercise(db, "데드리프트",            "등",      "💪");
+            insertExercise(db, "랫풀다운",              "등",      "💪");
+            insertExercise(db, "바벨 로우",             "등",      "💪");
+            insertExercise(db, "시티드 로우",           "등",      "💪");
             // legs (하체) 4개
-            insertExercise(db, "스쿼트",               "legs",      "🦵");
-            insertExercise(db, "레그프레스",            "legs",      "🦵");
-            insertExercise(db, "레그컬",               "legs",      "🦵");
-            insertExercise(db, "레그익스텐션",          "legs",      "🦵");
+            insertExercise(db, "스쿼트",               "하체",      "🦵");
+            insertExercise(db, "레그프레스",            "하체",      "🦵");
+            insertExercise(db, "레그컬",               "하체",      "🦵");
+            insertExercise(db, "레그익스텐션",          "하체",      "🦵");
             // shoulders (어깨) 4개
-            insertExercise(db, "오버헤드 프레스",       "shoulders", "💪");
-            insertExercise(db, "사이드 레터럴 레이즈",  "shoulders", "💪");
-            insertExercise(db, "프론트 레이즈",         "shoulders", "💪");
-            insertExercise(db, "리어 델트 플라이",      "shoulders", "💪");
+            insertExercise(db, "오버헤드 프레스",       "어깨", "💪");
+            insertExercise(db, "사이드 레터럴 레이즈",  "어깨", "💪");
+            insertExercise(db, "프론트 레이즈",         "어깨", "💪");
+            insertExercise(db, "리어 델트 플라이",      "어깨", "💪");
             // arms (팔) 4개
-            insertExercise(db, "바벨컬",               "arms",      "💪");
-            insertExercise(db, "트라이셉스 익스텐션",   "arms",      "💪");
-            insertExercise(db, "해머컬",               "arms",      "💪");
-            insertExercise(db, "케이블 푸시다운",       "arms",      "💪");
+            insertExercise(db, "바벨컬",               "팔",      "💪");
+            insertExercise(db, "트라이셉스 익스텐션",   "팔",      "💪");
+            insertExercise(db, "해머컬",               "팔",      "💪");
+            insertExercise(db, "케이블 푸시다운",       "팔",      "💪");
             // cardio (유산소) 8개
-            insertExercise(db, "러닝",                 "cardio",    "🏃");
-            insertExercise(db, "사이클",               "cardio",    "🚴");
-            insertExercise(db, "로잉머신",             "cardio",    "🚣");
-            insertExercise(db, "계단오르기",            "cardio",    "🪜");
-            insertExercise(db, "버피",                 "cardio",    "🤸");
-            insertExercise(db, "점핑잭",               "cardio",    "🤸");
-            insertExercise(db, "줄넘기",               "cardio",    "🪢");
-            insertExercise(db, "마운틴 클라이머",       "cardio",    "🧗");
+            insertExercise(db, "러닝",                 "유산소",    "🏃");
+            insertExercise(db, "사이클",               "유산소",    "🚴");
+            insertExercise(db, "로잉머신",             "유산소",    "🚣");
+            insertExercise(db, "계단오르기",            "유산소",    "🪜");
+            insertExercise(db, "버피",                 "유산소",    "🤸");
+            insertExercise(db, "점핑잭",               "유산소",    "🤸");
+            insertExercise(db, "줄넘기",               "유산소",    "🪢");
+            insertExercise(db, "마운틴 클라이머",       "유산소",    "🧗");
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();

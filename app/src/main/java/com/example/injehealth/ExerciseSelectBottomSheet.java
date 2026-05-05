@@ -19,6 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
+
+/**
+ * 루틴에 운동을 선택하여 추가할 수 있는 바텀시트
+ * 홈화면, 메뉴 --> 루틴설정 에서 사용함.
+ * */
 public class ExerciseSelectBottomSheet extends BottomSheetDialogFragment {
 
     public interface OnExerciseSelectedListener {
