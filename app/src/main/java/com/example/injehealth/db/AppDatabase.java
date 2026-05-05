@@ -37,7 +37,7 @@ import com.example.injehealth.db.entity.WorkoutSession;
                 DietLog.class,
                 DietItem.class
         },
-        version = 3
+        version = 4
 )
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -88,6 +88,34 @@ public abstract class AppDatabase extends RoomDatabase {
             supportSQLiteDatabase.execSQL("ALTER TABLE `users` ADD COLUMN `name` TEXT");
         }
     };
+    static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL(
+                "CREATE TABLE diet_logs_new (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "eaten_at TEXT NOT NULL, " +
+                "photo_path TEXT, " +
+                "memo TEXT)"
+            );
+            database.execSQL(
+                "INSERT INTO diet_logs_new (id, eaten_at, photo_path, memo) " +
+                "SELECT id, " +
+                "date || ' ' || CASE meal_type " +
+                "WHEN '아침' THEN '08:00' " +
+                "WHEN '점심' THEN '12:30' " +
+                "WHEN '저녁' THEN '19:00' " +
+                "WHEN '간식' THEN '15:30' " +
+                "ELSE '12:00' END, " +
+                "photo_path, memo " +
+                "FROM diet_logs"
+            );
+            database.execSQL("DROP TABLE diet_logs");
+            database.execSQL("ALTER TABLE diet_logs_new RENAME TO diet_logs");
+            database.execSQL("DROP INDEX IF EXISTS idx_diet_logs_eaten_at");
+            database.execSQL("CREATE INDEX index_diet_logs_eaten_at ON diet_logs(eaten_at)");
+        }
+    };
 
     public static AppDatabase getInstance(Context context) {
         if (INSTANCE == null) {
@@ -98,7 +126,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                     AppDatabase.class,
                                     "inje_health.db"
                             )
-                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                             .addCallback(prepopulateCallback)
                             .build();
                 }

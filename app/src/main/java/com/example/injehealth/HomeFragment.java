@@ -1,6 +1,5 @@
 package com.example.injehealth;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,7 +104,7 @@ public class HomeFragment extends Fragment {
                 ((MainActivity) requireActivity()).switchToTab(R.id.tab_exercise));
         /** btn_recent_detail :: 최근 운동기록 자세히 보기  추후 리팩토링 예정 mainactivity로 불러야함.*/
         view.findViewById(R.id.btn_recent_detail).setOnClickListener(v ->
-                startActivity(new Intent(requireContext(), HistoryListActivity.class)));
+                ((MainActivity) requireActivity()).switchToTab(R.id.tab_history));
     }
 
     // ── 인사말 / 날짜 ──────────────────────────────────────

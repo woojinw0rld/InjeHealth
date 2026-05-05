@@ -33,4 +33,95 @@
     <string name="detail_analysis_perfect">목표 대비 %d%% 달성했습니다. 완벽한 수행입니다! 🎉</string>
     <string name="detail_analysis_great">목표 대비 %d%% 달성했습니다. 훌륭한 수행입니다! 💪</string>
     <string name="detail_analysis_normal">목표 대비 %d%% 달성했습니다. 다음엔 더 잘할 수 있어요!</string>
+
+    <!-- Diet Segment -->
+    <string name="history_segment_workout">운동</string>
+    <string name="history_segment_diet">식단</string>
+
+    <!-- Diet Empty State -->
+    <string name="diet_empty_title">아직 식단 기록이 없어요</string>
+    <string name="diet_empty_subtitle">오늘 먹은 것을 기록해보세요!</string>
+
+    <!-- Diet Format -->
+    <string name="diet_kcal_format">%.0f kcal</string>
+    <string name="diet_macro_format">%.1fg</string>
+    <string name="diet_macro_carbs">탄수화물</string>
+    <string name="diet_macro_protein">단백질</string>
+    <string name="diet_macro_fat">지방</string>
+    <string name="diet_macro_carbs_format">탄 %.0fg</string>
+    <string name="diet_macro_protein_format">단 %.0fg</string>
+    <string name="diet_macro_fat_format">지 %.0fg</string>
+    <string name="diet_day_title_date_format">M월 d일 E요일</string>
+
+    <!-- Diet Day Card -->
+    <string name="diet_day_meal_count_format">끼니 %d회</string>
+    <string name="diet_day_title_format">%s 식단</string>
+
+    <!-- Diet Day Detail -->
+    <string name="diet_day_summary_title">오늘의 칼로리</string>
+    <string name="diet_meal_time_format">HH:mm</string>
+    <string name="diet_meal_add_food">+ 음식 추가</string>
+    <string name="diet_meal_no_food">음식이 없어요</string>
+    <string name="diet_meal_no_photo">사진 없음</string>
+    <string name="diet_day_add_meal">+ 끼니 추가</string>
+
+    <!-- AddMealSheet -->
+    <string name="diet_add_meal_title">끼니 추가</string>
+    <string name="diet_add_meal_time_label">시간</string>
+    <string name="diet_add_meal_time_change">변경</string>
+    <string name="diet_add_meal_photo_label">사진</string>
+    <string name="diet_add_meal_photo_camera">카메라로 촬영</string>
+    <string name="diet_add_meal_photo_gallery">갤러리에서 선택</string>
+    <string name="diet_add_meal_photo_remove">사진 제거</string>
+    <string name="diet_add_meal_food_section_title">음식</string>
+    <string name="diet_add_meal_food_add">+ 음식 추가</string>
+    <string name="diet_add_food_name_label">음식 이름</string>
+    <string name="diet_add_food_name_hint">예: 토스트</string>
+    <string name="diet_add_amount_label">섭취량</string>
+    <string name="diet_add_amount_hint">0</string>
+    <string name="diet_add_unit_g">g</string>
+    <string name="diet_add_unit_ml">ml</string>
+    <string name="diet_add_unit_count">개</string>
+    <string name="diet_add_kcal_hint">칼로리(kcal)</string>
+    <string name="diet_add_carbs_hint">탄수화물(g)</string>
+    <string name="diet_add_protein_hint">단백질(g)</string>
+    <string name="diet_add_fat_hint">지방(g)</string>
+    <string name="diet_add_save">저장</string>
+    <string name="diet_add_cancel">취소</string>
+
+    <!-- Diet Errors -->
+    <string name="diet_add_error_no_food">음식을 1개 이상 추가하세요</string>
+    <string name="diet_add_error_food_name_required">음식 이름을 입력하세요</string>
+    <string name="diet_add_error_amount_invalid">섭취량을 올바르게 입력하세요</string>
+    <string name="diet_save_failed">저장에 실패했습니다</string>
+    <string name="diet_photo_save_failed">사진 저장에 실패했습니다</string>
+    <string name="diet_photo_camera_unavailable">카메라를 사용할 수 없습니다</string>
+
+    <!-- Diet Delete Confirm -->
+    <string name="diet_meal_delete_confirm">이 끼니를 삭제할까요?</string>
+    <string name="diet_food_delete_confirm">이 음식을 삭제할까요?</string>
+    <string name="diet_photo_delete_confirm">사진을 삭제할까요?</string>
+
+    <!-- Diet Photo Actions -->
+    <string name="diet_photo_change">사진 변경</string>
+    <string name="diet_photo_delete">사진 삭제</string>
+    <string name="diet_photo_add">사진 추가</string>
+
+    <!-- Diet Meal Actions -->
+    <string name="diet_meal_edit_time">시간 수정</string>
+    <string name="diet_meal_edit_memo">메모 수정</string>
+    <string name="diet_meal_delete">끼니 삭제</string>
+    <string name="diet_confirm_yes">삭제</string>
+    <string name="diet_confirm_no">취소</string>
+
+    <!-- Diet Placeholders -->
+    <string name="diet_meal_time_placeholder">--:--</string>
+    <string name="diet_kcal_zero">0 kcal</string>
+    <string name="diet_macro_carbs_zero">탄 0g</string>
+    <string name="diet_macro_protein_zero">단 0g</string>
+    <string name="diet_macro_fat_zero">지 0g</string>
+    <string name="diet_meal_more_desc">끼니 옵션</string>
+    <string name="diet_day_toolbar_title">식단 기록</string>
+    <string name="diet_add_meal_memo_hint">메모 (선택)</string>
+    <string name="diet_history_add_day_desc">오늘 식단 추가</string>
 </resources>
