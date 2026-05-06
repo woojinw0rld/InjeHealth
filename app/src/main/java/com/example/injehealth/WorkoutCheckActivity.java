@@ -32,12 +32,18 @@ public class WorkoutCheckActivity extends AppCompatActivity {
     private TextView tvSetsProgress;
     private int totalSets = 0;
     private int completedSets = 0;
+    private String bodyPart;
+    private String startAy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_check);
 
+        bodyPart = getIntent().getStringExtra(RoutineSetupActivity.EXTRA_BODY_PART);
+
+
+        //일단 이거 안씀.
         sessionId = getIntent().getIntExtra(RoutineSetupActivity.EXTRA_SESSION_ID, -1);
 
         tvSetsProgress = findViewById(R.id.tv_sets_progress);

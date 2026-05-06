@@ -18,6 +18,7 @@ public class WorkoutLog {
     @PrimaryKey(autoGenerate = true)
     public int id;
     public int session_id;
+    /*운동이름*/
     public String exercise_name;
     public int set_number;
     public int planned_sets;

@@ -17,13 +17,8 @@ import com.example.injehealth.db.entity.Routine;
 import com.example.injehealth.db.entity.WorkoutLog;
 import com.example.injehealth.db.entity.WorkoutSession;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.Executors;
 
 public class RoutineSetupActivity extends AppCompatActivity {
@@ -40,14 +35,17 @@ public class RoutineSetupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_routine_setup);
 
+        /*intent로 HomeFragment에서 운동 명 받아옴*/
         bodyPart = getIntent().getStringExtra(EXTRA_BODY_PART);
         if (bodyPart == null) bodyPart = "전체";
 
+        /*상단 타이틀 변경*/
         TextView tvTitle = findViewById(R.id.tv_body_part_title);
         TextView tvBadge = findViewById(R.id.tv_body_part_badge);
         tvTitle.setText(bodyPart + " 운동 설정");
         tvBadge.setText(bodyPart);
 
+        /*뒤로 돌아가기 버튼*/
         findViewById(R.id.btn_back).setOnClickListener(v -> finish());
 
         RecyclerView rv = findViewById(R.id.rv_routines);
@@ -66,6 +64,7 @@ public class RoutineSetupActivity extends AppCompatActivity {
         btnStart.setOnClickListener(v -> startWorkout());
     }
 
+    /**저장된 루틴을 불러옮*/
     private void loadSavedRoutine() {
         Executors.newSingleThreadExecutor().execute(() -> {
             List<Routine> saved = AppDatabase.getInstance(this).routineDao().getByBodyPart(bodyPart);
@@ -79,7 +78,7 @@ public class RoutineSetupActivity extends AppCompatActivity {
             });
         });
     }
-
+    /**운동추가 바텀 시트*/
     private void showExerciseSheet() {
         ExerciseSelectBottomSheet sheet = ExerciseSelectBottomSheet.newInstance(bodyPart);
         sheet.setOnExerciseSelectedListener(name -> {
@@ -98,64 +97,54 @@ public class RoutineSetupActivity extends AppCompatActivity {
             Toast.makeText(this, "종목을 추가해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        Executors.newSingleThreadExecutor().execute(() -> {
-            AppDatabase db = AppDatabase.getInstance(this);
-
-            WorkoutSession session = new WorkoutSession();
-            session.body_part  = bodyPart;
-            session.date       = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-            session.created_at = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
-            long sessionId = db.workoutSessionDao().insert(session);
-
-            db.routineDao().deleteByBodyPart(bodyPart);
-
-
-
-            List<WorkoutLog> logs = new ArrayList<>();
-            for (String name : exerciseNames) {
-                for (int s = 1; s <= 3; s++) {
-                    WorkoutLog log = new WorkoutLog();
-                    log.session_id     = (int) sessionId;
-                    log.exercise_name  = name;
-                    log.set_number     = s;
-                    log.planned_sets   = 3;
-                    log.planned_reps   = 10;
-                    log.planned_weight = 0;
-                    log.reps           = 0;
-                    log.weight         = 0;
-                    log.is_done        = 0;
-                    logs.add(log);
-                }
-            }
-            db.workoutLogDao().insertAll(logs);
-
-            runOnUiThread(() -> {
-                Intent intent = new Intent(this, WorkoutCheckActivity.class);
-                intent.putExtra(EXTRA_SESSION_ID, (int) sessionId);
-                startActivity(intent);
-                finish();
-            });
-        });
+        setRoutinDB();
+        Intent intent = new Intent(this, WorkoutCheckActivity.class);
+        intent.putStringArrayListExtra("exercise_names", new ArrayList<>(exerciseNames));
+        intent.putExtra(EXTRA_BODY_PART, bodyPart);
+        startActivity(intent);
+        finish();
     }
+
+    /**
+     * 현재 루틴을 세팅할 때 과거 운동기록을 참고하여
+     * 루틴 목표 값에 저장.
+     * */
     private void setRoutinDB(){
         Executors.newSingleThreadExecutor().execute(() -> {
             AppDatabase db = AppDatabase.getInstance(this);
-            List<Routine> routines = new ArrayList<>();
-            List<WorkoutSession> workoutSessionsList = new ArrayList<>();
-            WorkoutSession workoutSession = null;
-            for(WorkoutSession s : workoutSessionsList){
-
+            //db에서 이전 세션들 불러옴.
+            List<WorkoutSession> workoutSessionsList = db.workoutSessionDao().getAll();
+            WorkoutSession lasteWorkoutSession = null;
+            for (WorkoutSession s : workoutSessionsList){ // 최근 같은 bodyPart 저장.
+                if (bodyPart.equals(s.body_part)){
+                    lasteWorkoutSession = s;
+                    break;
+                }
             }
+            //null 체크.
+            List<WorkoutLog> workoutLogs = lasteWorkoutSession != null ?
+                    db.workoutLogDao().getBySession(lasteWorkoutSession.id) : new ArrayList<>();
+
+            List<Routine> routines = new ArrayList<>();
             for (String name : exerciseNames) {
                 Exercise exercise = db.exerciseDao().getByName(name);
+
+                int defaultWeight = 0, defaultReps = 0, defaultSets = 3;
+                for (WorkoutLog log : workoutLogs){  //각 운동들 가져와서 저장.
+                    if(name.equals(log.exercise_name)){
+                        defaultWeight = Math.max((int)log.weight, defaultWeight);
+                        defaultReps = Math.max(log.reps, defaultReps);
+                        defaultSets = Math.max(log.set_number,defaultSets);
+                        break;
+                    }
+                }
                 Routine routine = new Routine();
                 routine.body_part = bodyPart;
                 routine.exercise_name = name;
                 routine.exercise_id = exercise != null ? exercise.id : 0;
-                routine.default_sets = 3;
-                routine.default_reps = 10;
-                routine.default_weight = 0;
+                routine.default_sets = defaultSets;
+                routine.default_reps = defaultReps;
+                routine.default_weight = defaultWeight;
                 routines.add(routine);
             }
             db.routineDao().insertAll(routines);
