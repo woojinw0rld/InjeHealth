@@ -169,8 +169,8 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
-            // 방어적 재시딩: 기본 운동이 28개 미만이면 재삽입
-            Cursor c = db.query("SELECT COUNT(*) FROM exercises WHERE is_custom=0", new Object[0]);
+            // 방어적 재시딩: 기본 운동 drawable 이미지가 누락되었으면 재삽입
+            Cursor c = db.query("SELECT COUNT(*) FROM exercises WHERE is_custom=0 AND image_type='drawable'", new Object[0]);
             int count = 0;
             if (c.moveToFirst()) count = c.getInt(0);
             c.close();
@@ -184,43 +184,43 @@ public abstract class AppDatabase extends RoomDatabase {
     private static void seedDefaultExercises(@NonNull SupportSQLiteDatabase db) {
         db.beginTransaction();
         try {
-            // chest (가슴) 4개
-            insertExercise(db, "벤치프레스",           "가슴",     "💪");
-            insertExercise(db, "인클라인 벤치프레스",   "가슴",     "💪");
-            insertExercise(db, "덤벨 플라이",           "가슴",     "💪");
-            insertExercise(db, "케이블 크로스오버",      "가슴",     "💪");
-            insertExercise(db, "디클라인 벤치프레스",      "가슴",     "💪");
-            insertExercise(db, "덤벨 벤치프레스",      "가슴",        "💪");
-            insertExercise(db, "인클라인 덤벨 벤치프레스","가슴",      "💪");
-            // back (등) 4개
-            insertExercise(db, "데드리프트",            "등",      "💪");
-            insertExercise(db, "랫풀다운",              "등",      "💪");
-            insertExercise(db, "바벨 로우",             "등",      "💪");
-            insertExercise(db, "시티드 로우",           "등",      "💪");
-            // legs (하체) 4개
-            insertExercise(db, "스쿼트",               "하체",      "🦵");
-            insertExercise(db, "레그프레스",            "하체",      "🦵");
-            insertExercise(db, "레그컬",               "하체",      "🦵");
-            insertExercise(db, "레그익스텐션",          "하체",      "🦵");
-            // shoulders (어깨) 4개
-            insertExercise(db, "오버헤드 프레스",       "어깨", "💪");
-            insertExercise(db, "사이드 레터럴 레이즈",  "어깨", "💪");
-            insertExercise(db, "프론트 레이즈",         "어깨", "💪");
-            insertExercise(db, "리어 델트 플라이",      "어깨", "💪");
-            // arms (팔) 4개
-            insertExercise(db, "바벨컬",               "팔",      "💪");
-            insertExercise(db, "트라이셉스 익스텐션",   "팔",      "💪");
-            insertExercise(db, "해머컬",               "팔",      "💪");
-            insertExercise(db, "케이블 푸시다운",       "팔",      "💪");
-            // cardio (유산소) 8개
-            insertExercise(db, "러닝",                 "유산소",    "🏃");
-            insertExercise(db, "사이클",               "유산소",    "🚴");
-            insertExercise(db, "로잉머신",             "유산소",    "🚣");
-            insertExercise(db, "계단오르기",            "유산소",    "🪜");
-            insertExercise(db, "버피",                 "유산소",    "🤸");
-            insertExercise(db, "점핑잭",               "유산소",    "🤸");
-            insertExercise(db, "줄넘기",               "유산소",    "🪢");
-            insertExercise(db, "마운틴 클라이머",       "유산소",    "🧗");
+            // chest (가슴)
+            insertExercise(db, "벤치프레스",              "가슴",   "chest_image");
+            insertExercise(db, "인클라인 벤치프레스",      "가슴",   "chest_image");
+            insertExercise(db, "덤벨 플라이",              "가슴",   "chest_image");
+            insertExercise(db, "케이블 크로스오버",         "가슴",   "chest_image");
+            insertExercise(db, "디클라인 벤치프레스",       "가슴",   "chest_image");
+            insertExercise(db, "덤벨 벤치프레스",           "가슴",   "chest_image");
+            insertExercise(db, "인클라인 덤벨 벤치프레스",  "가슴",   "chest_image");
+            // back (등)
+            insertExercise(db, "데드리프트",               "등",     "back_image");
+            insertExercise(db, "랫풀다운",                 "등",     "back_image");
+            insertExercise(db, "바벨 로우",                "등",     "back_image");
+            insertExercise(db, "시티드 로우",              "등",     "back_image");
+            // legs (하체)
+            insertExercise(db, "스쿼트",                   "하체",   "leg_image");
+            insertExercise(db, "레그프레스",               "하체",   "leg_image");
+            insertExercise(db, "레그컬",                   "하체",   "leg_image");
+            insertExercise(db, "레그익스텐션",             "하체",   "leg_image");
+            // shoulders (어깨)
+            insertExercise(db, "오버헤드 프레스",          "어깨",   "shoulder_image");
+            insertExercise(db, "사이드 레터럴 레이즈",     "어깨",   "shoulder_image");
+            insertExercise(db, "프론트 레이즈",            "어깨",   "shoulder_image");
+            insertExercise(db, "리어 델트 플라이",         "어깨",   "shoulder_image");
+            // arms (팔)
+            insertExercise(db, "바벨컬",                   "팔",     "arm_image");
+            insertExercise(db, "트라이셉스 익스텐션",      "팔",     "arm_image");
+            insertExercise(db, "해머컬",                   "팔",     "arm_image");
+            insertExercise(db, "케이블 푸시다운",          "팔",     "arm_image");
+            // cardio (유산소)
+            insertExercise(db, "러닝",                     "유산소", "cardio_image");
+            insertExercise(db, "사이클",                   "유산소", "cardio_image");
+            insertExercise(db, "로잉머신",                 "유산소", "cardio_image");
+            insertExercise(db, "계단오르기",               "유산소", "cardio_image");
+            insertExercise(db, "버피",                     "유산소", "cardio_image");
+            insertExercise(db, "점핑잭",                   "유산소", "cardio_image");
+            insertExercise(db, "줄넘기",                   "유산소", "cardio_image");
+            insertExercise(db, "마운틴 클라이머",          "유산소", "cardio_image");
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -228,11 +228,11 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     private static void insertExercise(@NonNull SupportSQLiteDatabase db,
-                                       String name, String bodyPart, String emoji) {
+                                       String name, String bodyPart, String imageRef) {
         db.execSQL(
             "INSERT INTO exercises (name, body_part, image_type, image_ref, is_custom, description) " +
-            "VALUES (?, ?, 'emoji', ?, 0, NULL)",
-            new Object[]{name, bodyPart, emoji}
+            "VALUES (?, ?, 'drawable', ?, 0, NULL)",
+            new Object[]{name, bodyPart, imageRef}
         );
     }
 }

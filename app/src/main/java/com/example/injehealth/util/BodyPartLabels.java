@@ -28,4 +28,31 @@ public class BodyPartLabels {
             default:       return "💪";
         }
     }
+
+    /** 부위별 기본 drawable 리소스 이름 */
+    public static String imageRef(String key) {
+        if (key == null) return "chest_image";
+        switch (key) {
+            case "chest":
+            case "가슴":
+                return "chest_image";
+            case "back":
+            case "등":
+                return "back_image";
+            case "legs":
+            case "하체":
+                return "leg_image";
+            case "arms":
+            case "팔":
+                return "arm_image";
+            case "cardio":
+            case "유산소":
+                return "cardio_image";
+            case "shoulders":
+            case "어깨":
+                return "arm_image";
+            default:
+                return "chest_image";
+        }
+    }
 }

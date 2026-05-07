@@ -138,13 +138,13 @@ public class AddCustomExerciseSheet extends BottomSheetDialogFragment {
                     imageRef = PhotoFileHelper.copyToSubdir(ctx, imgUri, "exercise_photos", fileName);
                     imageType = "file";
                 } catch (IOException e) {
-                    // 복사 실패 시 이모지 fallback
-                    imageRef = BodyPartLabels.emoji(bodyPart);
-                    imageType = "emoji";
+                    // 복사 실패 시 부위별 기본 이미지 fallback
+                    imageRef = BodyPartLabels.imageRef(bodyPart);
+                    imageType = "drawable";
                 }
             } else {
-                imageType = "emoji";
-                imageRef  = BodyPartLabels.emoji(bodyPart);
+                imageType = "drawable";
+                imageRef  = BodyPartLabels.imageRef(bodyPart);
             }
 
             Exercise ex = new Exercise();

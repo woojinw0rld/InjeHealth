@@ -68,11 +68,19 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
             h.tvEmoji.setVisibility(View.GONE);
             File imgFile = new File(ctx.getFilesDir(), ex.image_ref);
             Glide.with(ctx).load(imgFile).centerCrop().into(h.ivExercise);
+        } else if ("drawable".equals(ex.image_type) && ex.image_ref != null) {
+            h.ivExercise.setVisibility(View.VISIBLE);
+            h.tvEmoji.setVisibility(View.GONE);
+            int resId = ctx.getResources().getIdentifier(ex.image_ref, "drawable", ctx.getPackageName());
+            if (resId != 0) {
+                Glide.with(ctx).load(resId).centerCrop().into(h.ivExercise);
+            } else {
+                h.ivExercise.setImageResource(R.drawable.chest_image);
+            }
         } else {
-            // drawable 또는 기타: 빈 이모지 영역
-            h.ivExercise.setVisibility(View.GONE);
-            h.tvEmoji.setVisibility(View.VISIBLE);
-            h.tvEmoji.setText(BodyPartLabels.emoji(ex.body_part));
+            h.ivExercise.setVisibility(View.VISIBLE);
+            h.tvEmoji.setVisibility(View.GONE);
+            h.ivExercise.setImageResource(R.drawable.chest_image);
         }
 
         // 커스텀 배지
