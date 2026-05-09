@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
+        bottomNav.setSelectedItemId(R.id.tab_home);
     }
 
     private Fragment fragmentForId(int id) {
