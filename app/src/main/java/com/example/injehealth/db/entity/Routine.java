@@ -17,7 +17,7 @@ import androidx.room.PrimaryKey;
 public class Routine {
     @PrimaryKey(autoGenerate = true)
     public int id;
-    public String body_part;
+    public String routine_name;
     public int exercise_id;
     public String exercise_name;
     public int default_sets;

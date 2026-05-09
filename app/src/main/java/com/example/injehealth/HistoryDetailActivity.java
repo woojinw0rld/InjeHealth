@@ -1,6 +1,5 @@
 package com.example.injehealth;
 
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -127,8 +126,8 @@ public class HistoryDetailActivity extends AppCompatActivity {
      */
     private void bindData(WorkoutSession session, List<WorkoutLog> logs) {
         // 헤더: 부위명 + 날짜
-        tvTitle.setText(String.format("%s 운동", session.body_part));
-        tvBadge.setText(session.body_part);
+        tvTitle.setText(String.format("%s 운동", session.routine_name));
+        tvBadge.setText(session.routine_name);
         tvDate.setText(formatDate(session.date));
 
         // 운동 시간 계산 (created_at ~ done_at 차이, 분 단위)

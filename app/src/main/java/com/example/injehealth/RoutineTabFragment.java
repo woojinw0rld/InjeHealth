@@ -59,7 +59,7 @@ public class RoutineTabFragment extends Fragment {
     private void loadRoutines(String bodyPart, RecyclerView rv, TextView tvEmpty) {
         Executors.newSingleThreadExecutor().execute(() -> {
             List<Routine> routines = AppDatabase.getInstance(requireContext())
-                    .routineDao().getByBodyPart(bodyPart);
+                    .routineDao().getByRoutineName(bodyPart);
             requireActivity().runOnUiThread(() -> {
                 if (routines.isEmpty()) {
                     rv.setVisibility(View.GONE);
@@ -77,13 +77,13 @@ public class RoutineTabFragment extends Fragment {
     private void addExerciseToRoutine(String name, String bodyPart, RecyclerView rv, TextView tvEmpty) {
         Executors.newSingleThreadExecutor().execute(() -> {
             AppDatabase db = AppDatabase.getInstance(requireContext());
-            List<Routine> existing = db.routineDao().getByBodyPart(bodyPart);
+            List<Routine> existing = db.routineDao().getByRoutineName(bodyPart);
             for (Routine r : existing) {
                 if (r.exercise_name.equals(name)) return;
             }
             Exercise exercise = db.exerciseDao().getByName(name);
             Routine routine = new Routine();
-            routine.body_part     = bodyPart;
+            routine.routine_name = bodyPart;
             routine.exercise_name = name;
             routine.exercise_id   = exercise != null ? exercise.id : 0;
             routine.default_sets  = 3;

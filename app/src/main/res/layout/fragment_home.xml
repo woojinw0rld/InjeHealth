@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:text="오늘 운동할 부위를 선택하세요"
+                android:text="오늘 운동을 시작해 보세요."
                 android:textColor="#E0E0E0"
                 android:textSize="15sp" />
 
@@ -64,139 +64,14 @@
 
         </LinearLayout>
 
-        <!-- 부위 그리드 1행: 가슴 / 등 / 하체 -->
-        <LinearLayout
+        <Button
+            android:id = "@+id/btn_start_workout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
+            android:text = "운동 시작"
+            android:background="@drawable/bg_gender_selected"
+            />
 
-            <LinearLayout
-                android:id="@+id/chip_chest"
-                android:layout_width="0dp"
-                android:layout_height="90dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_body_part_chip"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView android:layout_width="28dp" android:layout_height="28dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_fitness_center" app:tint="#1E88E5" />
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" android:fontFamily="sans-serif-medium"
-                    android:text="가슴" android:textColor="#E0E0E0" android:textSize="13sp" />
-            </LinearLayout>
-
-            <Space android:layout_width="12dp" android:layout_height="1dp" />
-
-            <LinearLayout
-                android:id="@+id/chip_back"
-                android:layout_width="0dp"
-                android:layout_height="90dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_body_part_chip"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView android:layout_width="28dp" android:layout_height="28dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_accessibility" app:tint="#1E88E5" />
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" android:fontFamily="sans-serif-medium"
-                    android:text="등" android:textColor="#E0E0E0" android:textSize="13sp" />
-            </LinearLayout>
-
-            <Space android:layout_width="12dp" android:layout_height="1dp" />
-
-            <LinearLayout
-                android:id="@+id/chip_legs"
-                android:layout_width="0dp"
-                android:layout_height="90dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_body_part_chip"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView android:layout_width="28dp" android:layout_height="28dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_directions_run" app:tint="#1E88E5" />
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" android:fontFamily="sans-serif-medium"
-                    android:text="하체" android:textColor="#E0E0E0" android:textSize="13sp" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- 부위 그리드 2행: 어깨 / 팔 / 유산소 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:id="@+id/chip_shoulders"
-                android:layout_width="0dp"
-                android:layout_height="90dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_body_part_chip"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView android:layout_width="28dp" android:layout_height="28dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_fitness_center" app:tint="#1E88E5" />
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" android:fontFamily="sans-serif-medium"
-                    android:text="어깨" android:textColor="#E0E0E0" android:textSize="13sp" />
-            </LinearLayout>
-
-            <Space android:layout_width="12dp" android:layout_height="1dp" />
-
-            <LinearLayout
-                android:id="@+id/chip_arms"
-                android:layout_width="0dp"
-                android:layout_height="90dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_body_part_chip"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView android:layout_width="28dp" android:layout_height="28dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_fitness_center" app:tint="#1E88E5" />
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" android:fontFamily="sans-serif-medium"
-                    android:text="팔" android:textColor="#E0E0E0" android:textSize="13sp" />
-            </LinearLayout>
-
-            <Space android:layout_width="12dp" android:layout_height="1dp" />
-
-            <LinearLayout
-                android:id="@+id/chip_cardio"
-                android:layout_width="0dp"
-                android:layout_height="90dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_body_part_chip"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView android:layout_width="28dp" android:layout_height="28dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_favorite" app:tint="#1E88E5" />
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" android:fontFamily="sans-serif-medium"
-                    android:text="유산소" android:textColor="#E0E0E0" android:textSize="13sp" />
-            </LinearLayout>
-
-        </LinearLayout>
 
         <!-- 최근 운동 기록 -->
         <TextView

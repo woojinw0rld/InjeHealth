@@ -40,7 +40,7 @@ public class WorkoutCheckActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_check);
 
-        bodyPart = getIntent().getStringExtra(RoutineSetupActivity.EXTRA_BODY_PART);
+        bodyPart = getIntent().getStringExtra(RoutineSetupActivity.ROUTINE_NAME);
 
 
         //일단 이거 안씀.
@@ -105,7 +105,7 @@ public class WorkoutCheckActivity extends AppCompatActivity {
             WorkoutSession session = db.workoutSessionDao().getById(sessionId);
             List<WorkoutLog> logs  = db.workoutLogDao().getBySession(sessionId);
 
-            String bodyPart = session != null ? session.body_part : "";
+            String bodyPart = session != null ? session.routine_name : "";
             Map<String, List<WorkoutLog>> grouped = new LinkedHashMap<>();
             for (WorkoutLog log : logs) {
                 grouped.computeIfAbsent(log.exercise_name, k -> new ArrayList<>()).add(log);
