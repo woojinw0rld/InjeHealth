@@ -72,6 +72,11 @@ public class HomeFragment extends Fragment {
         setDate();
         loadHomeData();
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadHomeData(); // DB 재조회
+    }
 
     private void initViews(View view) {
         tvGreeting        = view.findViewById(R.id.tv_greeting);

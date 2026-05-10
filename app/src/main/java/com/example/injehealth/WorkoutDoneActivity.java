@@ -178,4 +178,5 @@ public class WorkoutDoneActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
 }
