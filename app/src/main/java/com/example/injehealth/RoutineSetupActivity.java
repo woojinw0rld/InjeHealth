@@ -19,6 +19,7 @@ import com.example.injehealth.db.entity.WorkoutSession;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -31,13 +32,13 @@ public class RoutineSetupActivity extends AppCompatActivity {
     private String myRoutine = "empty";
     private RoutineAdapter adapter;
     private List<String> routineNames = new ArrayList<>();
+    private SetData setData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_routine_setup);
 
-        loadSavedRoutine();
 
         /*상단 타이틀 변경*/
         setTopTitel();
@@ -47,11 +48,13 @@ public class RoutineSetupActivity extends AppCompatActivity {
 
         RecyclerView rv = findViewById(R.id.rv_routines);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new RoutineAdapter(routineNames, routineName -> {
-            myRoutine = adapter.getSelectedName();
+        adapter = new RoutineAdapter(routineName -> {
+            myRoutine = routineName;
             Log.d("TAG", "myRoutine: " + myRoutine);
         });
         rv.setAdapter(adapter);
+
+        loadSavedRoutine();
 
         Button btnStart = findViewById(R.id.btn_start_workout);
         btnStart.setOnClickListener(v -> startWorkout());
@@ -67,35 +70,21 @@ public class RoutineSetupActivity extends AppCompatActivity {
     private void loadSavedRoutine() {
         Executors.newSingleThreadExecutor().execute(() -> {
             routineList = AppDatabase.getInstance(this).routineDao().getAll();
-            for(Routine r : routineList){
-                if (!routineNames.contains(r.routine_name)) {
-                    routineNames.add(r.routine_name);
-                }
+            LinkedHashMap<String, List<String>> grouped = new LinkedHashMap<>();
+            for (Routine r : routineList) {
+                grouped.computeIfAbsent(r.routine_name, k -> new ArrayList<>()).add(r.exercise_name);
             }
+            runOnUiThread(() -> adapter.setData(grouped));
         });
     }
-    /**운동추가 바텀 시트*/
-//    private void showExerciseSheet() {
-//        ExerciseSelectBottomSheet sheet = ExerciseSelectBottomSheet.newInstance(bodyPart);
-//        sheet.setOnExerciseSelectedListener(name -> {
-//            if (!exerciseNames.contains(name)) {
-//                exerciseNames.add(name);
-//                adapter.notifyItemInserted(exerciseNames.size() - 1);
-//            } else {
-//                Toast.makeText(this, "이미 추가된 종목입니다", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        sheet.show(getSupportFragmentManager(), "exercise_select");
-//    }
 
     private void startWorkout() {
-        if (routineList.isEmpty() && myRoutine.equals("empty")) {
-            Toast.makeText(this, "종목을 추가해주세요", Toast.LENGTH_SHORT).show();
+        if (myRoutine.equals("empty")) {
+            Toast.makeText(this, "루틴을 선택해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
         setRoutinDB();
         Intent intent = new Intent(this, WorkoutCheckActivity.class);
-        intent.putStringArrayListExtra("routineNames_names", new ArrayList<>(routineNames));
         intent.putExtra(ROUTINE_NAME, myRoutine);
         startActivity(intent);
         finish();

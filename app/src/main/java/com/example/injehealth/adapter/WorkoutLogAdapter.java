@@ -15,8 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.injehealth.R;
+import com.example.injehealth.db.entity.Routine;
 import com.example.injehealth.db.entity.WorkoutLog;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,7 @@ public class WorkoutLogAdapter extends RecyclerView.Adapter<WorkoutLogAdapter.Vi
     }
 
     private final List<String> exerciseNames;
+
     private final Map<String, List<WorkoutLog>> groupedLogs;
     private final OnSetCheckedListener listener;
     private final Map<Integer, CountDownTimer> activeTimers = new HashMap<>();
@@ -93,6 +96,29 @@ public class WorkoutLogAdapter extends RecyclerView.Adapter<WorkoutLogAdapter.Vi
             listener.onSetAdded(newLog);
         });
         holder.llSets.addView(btnAddSet);
+    }
+    public void setRoutines(List<Routine> routines) {
+        exerciseNames.clear();
+        groupedLogs.clear();
+        for (Routine r : routines) {
+            if (!exerciseNames.contains(r.exercise_name)) {
+                exerciseNames.add(r.exercise_name);
+                groupedLogs.put(r.exercise_name, new ArrayList<>());
+            }
+            List<WorkoutLog> sets = groupedLogs.get(r.exercise_name);
+            for (int i = 0; i < r.default_sets; i++) {
+                WorkoutLog log = new WorkoutLog();
+                log.session_id     = sessionId;
+                log.exercise_name  = r.exercise_name;
+                log.set_number     = i + 1;
+                log.planned_sets   = r.default_sets;
+                log.planned_reps   = r.default_reps;
+                log.planned_weight = r.default_weight;
+                log.is_done        = 0;
+                sets.add(log);
+            }
+        }
+        notifyDataSetChanged();
     }
 
     private View buildSetRow(Context ctx, WorkoutLog log) {
