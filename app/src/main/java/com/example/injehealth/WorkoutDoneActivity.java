@@ -21,6 +21,7 @@ import androidx.core.content.FileProvider;
 import com.example.injehealth.db.AppDatabase;
 import com.example.injehealth.db.entity.WorkoutLog;
 import com.example.injehealth.db.entity.WorkoutSession;
+import com.example.injehealth.util.SystemBarHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,6 +71,7 @@ public class WorkoutDoneActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_done);
+        SystemBarHelper.applyPadding(this, R.id.main);
 
         sessionId = getIntent().getIntExtra(RoutineSetupActivity.EXTRA_SESSION_ID, -1);
         ivPhoto = findViewById(R.id.iv_photo);

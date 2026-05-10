@@ -14,6 +14,7 @@ import com.example.injehealth.adapter.RoutineManageAdapter;
 import com.example.injehealth.db.AppDatabase;
 import com.example.injehealth.db.entity.Exercise;
 import com.example.injehealth.db.entity.Routine;
+import com.example.injehealth.util.SystemBarHelper;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -30,6 +31,7 @@ public class RoutineListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_routine_list);
+        SystemBarHelper.applyPadding(this, R.id.main);
 
         findViewById(R.id.btn_back).setOnClickListener(v -> finish());
 

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.injehealth.db.AppDatabase;
 import com.example.injehealth.db.entity.User;
+import com.example.injehealth.util.SystemBarHelper;
 
 import java.util.concurrent.Executors;
 
@@ -24,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        SystemBarHelper.applyPadding(this, R.id.main);
 
         etWeight = findViewById(R.id.et_weight);
         etHeight = findViewById(R.id.et_height);
