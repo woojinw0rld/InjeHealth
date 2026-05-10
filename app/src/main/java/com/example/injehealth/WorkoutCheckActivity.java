@@ -110,7 +110,7 @@ public class WorkoutCheckActivity extends AppCompatActivity {
                 .setNegativeButton("계속", null)
                 .show();
     }
-
+    /**운동 종료*/
     private void finishWorkout() {
         adapter.cancelAllTimers();
         System.out.println("HI");
@@ -139,13 +139,20 @@ public class WorkoutCheckActivity extends AppCompatActivity {
         });
     }
     private void setWorkoutlogAdapter(){
-        adapter = new WorkoutLogAdapter(exerciseNames, groupedLogs, sessionId,new WorkoutLogAdapter.OnSetCheckedListener() {
+        adapter = new WorkoutLogAdapter (sessionId,new WorkoutLogAdapter.OnSetCheckedListener() {
             @Override
             public void onSetChecked(WorkoutLog log) {
                 completedSets++;
                 updateProgress();
-                Executors.newSingleThreadExecutor().execute(() ->
-                        AppDatabase.getInstance(WorkoutCheckActivity.this).workoutLogDao().update(log));
+                Executors.newSingleThreadExecutor().execute(() -> {
+                    AppDatabase db = AppDatabase.getInstance(WorkoutCheckActivity.this);
+                    if (log.id == 0) {
+                        long id = db.workoutLogDao().insert(log);
+                        log.id = (int) id;
+                    } else {
+                        db.workoutLogDao().update(log);
+                    }
+                });
             }
             @Override
             public void onSetAdded(WorkoutLog newLog) {

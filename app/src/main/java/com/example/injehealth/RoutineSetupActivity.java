@@ -32,7 +32,6 @@ public class RoutineSetupActivity extends AppCompatActivity {
     private String myRoutine = "empty";
     private RoutineAdapter adapter;
     private List<String> routineNames = new ArrayList<>();
-    private SetData setData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

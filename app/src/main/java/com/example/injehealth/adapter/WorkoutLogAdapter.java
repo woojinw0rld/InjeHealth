@@ -20,6 +20,7 @@ import com.example.injehealth.db.entity.WorkoutLog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,14 +43,12 @@ public class WorkoutLogAdapter extends RecyclerView.Adapter<WorkoutLogAdapter.Vi
     private final Map<Integer, Long> remainingMs = new HashMap<>();
     private final int sessionId;
 
-    public WorkoutLogAdapter(List<String> exerciseNames,
-                             Map<String, List<WorkoutLog>> groupedLogs,
-                             int sessionId,
-                             OnSetCheckedListener listener) {
-        this.exerciseNames = exerciseNames;
-        this.groupedLogs   = groupedLogs;
-        this.listener      = listener;
+
+    public WorkoutLogAdapter(int sessionId, OnSetCheckedListener listener) {
+        this.exerciseNames = new ArrayList<>();
+        this.groupedLogs   = new LinkedHashMap<>();
         this.sessionId     = sessionId;
+        this.listener      = listener;
     }
 
     @NonNull
@@ -72,31 +71,30 @@ public class WorkoutLogAdapter extends RecyclerView.Adapter<WorkoutLogAdapter.Vi
             View setRow = buildSetRow(holder.itemView.getContext(), log);
             holder.llSets.addView(setRow);
         }
-        Button btnAddSet = new Button(holder.itemView.getContext());
-        btnAddSet.setText("+ 세트 추가");
-        btnAddSet.setTextColor(0xFF1E88E5);
-        btnAddSet.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-        btnAddSet.setOnClickListener(v -> {
-            List<WorkoutLog> currentSets = groupedLogs.get(exerciseName);
-            WorkoutLog newLog = new WorkoutLog();
-            newLog.session_id     = sessionId;
-            newLog.exercise_name  = exerciseName;
-            newLog.set_number     = currentSets.size() + 1;
-            newLog.planned_sets   = currentSets.size() + 1;
-            newLog.planned_reps   = currentSets.isEmpty() ? 10 : currentSets.get(0).planned_reps;
-            newLog.planned_weight = currentSets.isEmpty() ? 0  : currentSets.get(0).planned_weight;
-            newLog.reps           = 0;
-            newLog.weight         = 0;
-            newLog.is_done        = 0;
-
-            currentSets.add(newLog);
-            View setRow = buildSetRow(holder.itemView.getContext(), newLog);
-            holder.llSets.addView(setRow, holder.llSets.getChildCount() - 1);
-
-            listener.onSetAdded(newLog);
-        });
-        holder.llSets.addView(btnAddSet);
+        Button btnAddSet = holder.itemView.findViewById(R.id.btn_add_set);
+        btnAddSet.setOnClickListener(v -> addSetListener(exerciseName, holder.llSets, holder.itemView.getContext()));
     }
+
+    /**세트 추가버튼*/
+    private void addSetListener(String exerciseName, LinearLayout llSets, Context ctx) {
+        List<WorkoutLog> currentSets = groupedLogs.get(exerciseName);
+        WorkoutLog newLog = new WorkoutLog();
+        newLog.session_id     = sessionId;
+        newLog.exercise_name  = exerciseName;
+        newLog.set_number     = currentSets.size() + 1;
+        newLog.planned_sets   = currentSets.size() + 1;
+        newLog.planned_reps   = currentSets.isEmpty() ? 10 : currentSets.get(0).planned_reps;
+        newLog.planned_weight = currentSets.isEmpty() ? 0  : currentSets.get(0).planned_weight;
+        newLog.reps           = 0;
+        newLog.weight         = 0;
+        newLog.is_done        = 0;
+
+        currentSets.add(newLog);
+        llSets.addView(buildSetRow(ctx, newLog));
+        listener.onSetAdded(newLog);
+    }
+
+    /**루틴 기반으로 운동들 불러와서 저장함*/
     public void setRoutines(List<Routine> routines) {
         exerciseNames.clear();
         groupedLogs.clear();
@@ -121,7 +119,9 @@ public class WorkoutLogAdapter extends RecyclerView.Adapter<WorkoutLogAdapter.Vi
         notifyDataSetChanged();
     }
 
+    /**세트 행 하나 만들기*/
     private View buildSetRow(Context ctx, WorkoutLog log) {
+        int timerKey = System.identityHashCode(log);
         View row = LayoutInflater.from(ctx).inflate(R.layout.item_workout_set, null);
         row.setTag(log);
 
@@ -157,12 +157,12 @@ public class WorkoutLogAdapter extends RecyclerView.Adapter<WorkoutLogAdapter.Vi
 
             applyDoneState(row, etActualReps, etActualWeight, btnCheck);
             btnDelete.setVisibility(View.GONE);
-            startRestTimer(log.id, llTimer, tvTimer, 60_000);
+            startRestTimer(timerKey, llTimer, tvTimer, 60_000);
         });
         btnTimeAdd.setOnClickListener(v -> {
-            Long current = remainingMs.get(log.id);
+            Long current = remainingMs.get(timerKey);
             if (current != null && current > 0) {
-                startRestTimer(log.id, llTimer, tvTimer, current + 10_000);
+                startRestTimer(timerKey, llTimer, tvTimer, current + 10_000);
             }
         });
 
@@ -176,7 +176,7 @@ public class WorkoutLogAdapter extends RecyclerView.Adapter<WorkoutLogAdapter.Vi
 
         return row;
     }
-
+    /**끝났을 때 ui변경*/
     private void applyDoneState(View row, EditText etReps, EditText etWeight, ImageButton btnCheck) {
         etReps.setEnabled(false);
         etWeight.setEnabled(false);
@@ -188,27 +188,29 @@ public class WorkoutLogAdapter extends RecyclerView.Adapter<WorkoutLogAdapter.Vi
         btnCheck.setEnabled(false);
     }
 
-    private void startRestTimer(int logId, LinearLayout llTimer, TextView tvTimer, long ms) {
-        if (activeTimers.containsKey(logId)) {
-            activeTimers.get(logId).cancel();
+    /**휴식타이머*/
+    private void startRestTimer(int timerKey, LinearLayout llTimer, TextView tvTimer, long ms) {
+
+        if (activeTimers.containsKey(timerKey)) {
+            activeTimers.get(timerKey).cancel();
         }
         llTimer.setVisibility(View.VISIBLE);
-        remainingMs.put(logId, ms);
+        remainingMs.put(timerKey, ms);
         CountDownTimer timer = new CountDownTimer(ms, 1000) {
             @Override
             public void onTick(long msUntilFinished) {
-                remainingMs.put(logId, msUntilFinished);
+                remainingMs.put(timerKey, msUntilFinished);
                 long secs = msUntilFinished / 1000;
                 tvTimer.setText("휴식 시간: " + secs / 60 + ":" + String.format("%02d", secs % 60));
             }
             @Override
             public void onFinish() {
                 llTimer.setVisibility(View.GONE);
-                activeTimers.remove(logId);
-                remainingMs.remove(logId);
+                activeTimers.remove(timerKey);
+                remainingMs.remove(timerKey);
             }
         }.start();
-        activeTimers.put(logId, timer);
+        activeTimers.put(timerKey, timer);
     }
 
     public void cancelAllTimers() {
