@@ -38,4 +38,10 @@ public interface RoutineDao {
 
     @Query("SELECT exercise_name FROM routines WHERE routine_name = :routineName")
     List<String> getExerciseNamesByRoutineName(String routineName);
+
+    @Query("DELETE FROM routines WHERE routine_name = :routineName")
+    void deleteRoutine(String routineName);
+
+    @Query("DELETE FROM routines WHERE routine_name = :routineName AND exercise_name = :exerciseName")
+    void deleteExerciseFromRoutine(String routineName, String exerciseName);
 }
