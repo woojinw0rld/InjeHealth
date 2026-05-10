@@ -85,8 +85,6 @@ public class WorkoutLogAdapter extends RecyclerView.Adapter<WorkoutLogAdapter.Vi
         newLog.planned_sets   = currentSets.size() + 1;
         newLog.planned_reps   = currentSets.isEmpty() ? 10 : currentSets.get(0).planned_reps;
         newLog.planned_weight = currentSets.isEmpty() ? 0  : currentSets.get(0).planned_weight;
-        newLog.reps           = 0;
-        newLog.weight         = 0;
         newLog.is_done        = 0;
 
         currentSets.add(newLog);
@@ -137,7 +135,8 @@ public class WorkoutLogAdapter extends RecyclerView.Adapter<WorkoutLogAdapter.Vi
 
         tvSetNumber.setText(String.valueOf(log.set_number));
         tvPlanned.setText(log.planned_reps + "회 × " + formatWeight(log.planned_weight) + "kg");
-
+        etActualReps.setText(log.planned_reps+"");
+        etActualWeight.setText(log.planned_weight+"");
         if (log.is_done == 1) {
             applyDoneState(row, etActualReps, etActualWeight, btnCheck);
             btnDelete.setVisibility(View.GONE);
