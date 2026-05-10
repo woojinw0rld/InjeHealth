@@ -3,7 +3,7 @@ package com.example.injehealth.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,16 +15,17 @@ import java.util.List;
 
 public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.ViewHolder> {
 
-    public interface OnDeleteListener {
-        void onDelete(int position);
+    public interface OnSelectListener {
+        void onSelect(String routineName);
     }
 
-    private final List<String> exerciseNames;
-    private final OnDeleteListener deleteListener;
+    private final List<String> routineNames;
+    private final OnSelectListener selectListener;
+    private int selectedPosition = -1;
 
-    public RoutineAdapter(List<String> exerciseNames, OnDeleteListener deleteListener) {
-        this.exerciseNames  = exerciseNames;
-        this.deleteListener = deleteListener;
+    public RoutineAdapter(List<String> routineNames, OnSelectListener selectListener) {
+        this.routineNames   = routineNames;
+        this.selectListener = selectListener;
     }
 
     @NonNull
@@ -37,23 +38,44 @@ public class RoutineAdapter extends RecyclerView.Adapter<RoutineAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tvExerciseName.setText(exerciseNames.get(position));
-        holder.btnDelete.setOnClickListener(v -> deleteListener.onDelete(holder.getAdapterPosition()));
+        holder.tvExerciseName.setText(routineNames.get(position));
+        holder.cbSelect.setChecked(position == selectedPosition);
+
+        holder.itemView.setOnClickListener(v -> {
+            int prev = selectedPosition;
+            selectedPosition = holder.getAdapterPosition();
+            notifyItemChanged(prev);
+            notifyItemChanged(selectedPosition);
+            selectListener.onSelect(routineNames.get(selectedPosition));
+        });
+
+        holder.cbSelect.setOnClickListener(v -> {
+            int prev = selectedPosition;
+            selectedPosition = holder.getAdapterPosition();
+            notifyItemChanged(prev);
+            notifyItemChanged(selectedPosition);
+            selectListener.onSelect(routineNames.get(selectedPosition));
+        });
     }
 
     @Override
     public int getItemCount() {
-        return exerciseNames.size();
+        return routineNames.size();
+    }
+
+    public String getSelectedName() {
+        if (selectedPosition == -1) return null;
+        return routineNames.get(selectedPosition);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvExerciseName;
-        ImageButton btnDelete;
+        CheckBox cbSelect;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvExerciseName = itemView.findViewById(R.id.tv_exercise_name);
-            btnDelete      = itemView.findViewById(R.id.btn_delete);
+            cbSelect       = itemView.findViewById(R.id.cb_select);
         }
     }
 }

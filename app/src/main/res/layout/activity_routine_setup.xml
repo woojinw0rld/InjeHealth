@@ -30,21 +30,21 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:text="운동 설정"
+            android:text="루틴을 선택해주세요."
             android:textColor="#E0E0E0"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <!-- 부위 배지 -->
+        <!-- 요일 배지 -->
         <TextView
-            android:id="@+id/tv_body_part_badge"
+            android:id="@+id/tv_days_badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:paddingHorizontal="12dp"
             android:paddingVertical="4dp"
             android:background="@drawable/bg_badge_blue"
-            android:text="가슴"
+            android:text="월요일"
             android:textColor="#1E88E5"
             android:textSize="12sp" />
 
@@ -71,16 +71,6 @@
         android:orientation="vertical"
         android:padding="16dp"
         android:background="#1E1E1E">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_add_exercise"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginBottom="8dp"
-            android:text="+ 종목 추가"
-            android:textColor="#1E88E5"
-            app:strokeColor="#1E88E5" />
 
         <Button
             android:id="@+id/btn_start_workout"

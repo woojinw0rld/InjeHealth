@@ -38,7 +38,7 @@ import com.example.injehealth.db.entity.WorkoutSession;
                 DietLog.class,
                 DietItem.class
         },
-        version = 5
+        version = 7
 )
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -140,6 +140,18 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE body_records_new RENAME TO body_records");
         }
     };
+    static final Migration MIGRATION_5_6 = new Migration(5, 6) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE routines RENAME COLUMN body_part TO routine_name");
+        }
+    };
+    static final Migration MIGRATION_6_7 = new Migration(6, 7) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE workout_sessions RENAME COLUMN body_part TO routine_name");
+        }
+    };
 
     public static AppDatabase getInstance(Context context) {
         if (INSTANCE == null) {
@@ -150,7 +162,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                     AppDatabase.class,
                                     "inje_health.db"
                             )
-                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
                             .addCallback(prepopulateCallback)
                             .build();
                 }

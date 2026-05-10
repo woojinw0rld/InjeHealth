@@ -8,7 +8,7 @@ public class WorkoutSession {
     @PrimaryKey(autoGenerate = true)
     public int id;
     public String date;        // "yyyy-MM-dd"
-    public String body_part;
+    public String routine_name;
     public String photo_path;
     public String created_at;  // ISO 8601
     public String done_at;

@@ -2,6 +2,7 @@ package com.example.injehealth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,142 +13,119 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.injehealth.adapter.RoutineAdapter;
 import com.example.injehealth.db.AppDatabase;
-import com.example.injehealth.db.entity.Exercise;
 import com.example.injehealth.db.entity.Routine;
 import com.example.injehealth.db.entity.WorkoutLog;
 import com.example.injehealth.db.entity.WorkoutSession;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.Executors;
 
 public class RoutineSetupActivity extends AppCompatActivity {
+    private List<Routine> routineList;
 
-    public static final String EXTRA_BODY_PART = "body_part";
+    public static final String ROUTINE_NAME = "ROUTINE_NAME";
     public static final String EXTRA_SESSION_ID = "session_id";
 
-    private String bodyPart;
+    private String myRoutine = "empty";
     private RoutineAdapter adapter;
-    private final List<String> exerciseNames = new ArrayList<>();
+    private List<String> routineNames = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_routine_setup);
 
-        bodyPart = getIntent().getStringExtra(EXTRA_BODY_PART);
-        if (bodyPart == null) bodyPart = "전체";
+        loadSavedRoutine();
 
-        TextView tvTitle = findViewById(R.id.tv_body_part_title);
-        TextView tvBadge = findViewById(R.id.tv_body_part_badge);
-        tvTitle.setText(bodyPart + " 운동 설정");
-        tvBadge.setText(bodyPart);
+        /*상단 타이틀 변경*/
+        setTopTitel();
 
+        /*뒤로 돌아가기 버튼*/
         findViewById(R.id.btn_back).setOnClickListener(v -> finish());
 
         RecyclerView rv = findViewById(R.id.rv_routines);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new RoutineAdapter(exerciseNames, position -> {
-            exerciseNames.remove(position);
-            adapter.notifyItemRemoved(position);
+        adapter = new RoutineAdapter(routineNames, routineName -> {
+            myRoutine = adapter.getSelectedName();
+            Log.d("TAG", "myRoutine: " + myRoutine);
         });
         rv.setAdapter(adapter);
-
-        loadSavedRoutine();
-
-        findViewById(R.id.btn_add_exercise).setOnClickListener(v -> showExerciseSheet());
 
         Button btnStart = findViewById(R.id.btn_start_workout);
         btnStart.setOnClickListener(v -> startWorkout());
     }
+    private void setTopTitel(){
+        TextView tvBadge = findViewById(R.id.tv_days_badge);
+        String[] days = {"일요일","월요일","화요일","수요일","목요일","금요일","토요일"};
+        String today = days[Calendar.getInstance().get(Calendar.DAY_OF_WEEK)-1];
+        tvBadge.setText(today);
+    }
 
+    /**저장된 루틴을 불러옮*/
     private void loadSavedRoutine() {
         Executors.newSingleThreadExecutor().execute(() -> {
-            List<Routine> saved = AppDatabase.getInstance(this).routineDao().getByBodyPart(bodyPart);
-            runOnUiThread(() -> {
-                for (Routine r : saved) {
-                    if (!exerciseNames.contains(r.exercise_name)) {
-                        exerciseNames.add(r.exercise_name);
-                    }
+            routineList = AppDatabase.getInstance(this).routineDao().getAll();
+            for(Routine r : routineList){
+                if (!routineNames.contains(r.routine_name)) {
+                    routineNames.add(r.routine_name);
                 }
-                adapter.notifyDataSetChanged();
-            });
-        });
-    }
-
-    private void showExerciseSheet() {
-        ExerciseSelectBottomSheet sheet = ExerciseSelectBottomSheet.newInstance(bodyPart);
-        sheet.setOnExerciseSelectedListener(name -> {
-            if (!exerciseNames.contains(name)) {
-                exerciseNames.add(name);
-                adapter.notifyItemInserted(exerciseNames.size() - 1);
-            } else {
-                Toast.makeText(this, "이미 추가된 종목입니다", Toast.LENGTH_SHORT).show();
             }
         });
-        sheet.show(getSupportFragmentManager(), "exercise_select");
     }
+    /**운동추가 바텀 시트*/
+//    private void showExerciseSheet() {
+//        ExerciseSelectBottomSheet sheet = ExerciseSelectBottomSheet.newInstance(bodyPart);
+//        sheet.setOnExerciseSelectedListener(name -> {
+//            if (!exerciseNames.contains(name)) {
+//                exerciseNames.add(name);
+//                adapter.notifyItemInserted(exerciseNames.size() - 1);
+//            } else {
+//                Toast.makeText(this, "이미 추가된 종목입니다", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        sheet.show(getSupportFragmentManager(), "exercise_select");
+//    }
 
     private void startWorkout() {
-        if (exerciseNames.isEmpty()) {
+        if (routineList.isEmpty() && myRoutine.equals("empty")) {
             Toast.makeText(this, "종목을 추가해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
+        setRoutinDB();
+        Intent intent = new Intent(this, WorkoutCheckActivity.class);
+        intent.putStringArrayListExtra("routineNames_names", new ArrayList<>(routineNames));
+        intent.putExtra(ROUTINE_NAME, myRoutine);
+        startActivity(intent);
+        finish();
+    }
 
+    /**
+     * 현재 루틴을 세팅할 때 과거 운동기록을 참고하여
+     * 루틴 목표 값에 저장.
+     * */
+    private void setRoutinDB(){
         Executors.newSingleThreadExecutor().execute(() -> {
             AppDatabase db = AppDatabase.getInstance(this);
+            //db에서 이전 세션들 불러옴.
+            WorkoutSession lastWorkoutSession = db.workoutSessionDao().getLastByRoutineName(myRoutine);
+            //null 체크.
+            List<WorkoutLog> workoutLogs = lastWorkoutSession != null ?
+                    db.workoutLogDao().getBySession(lastWorkoutSession.id) : new ArrayList<>();
 
-            WorkoutSession session = new WorkoutSession();
-            session.body_part  = bodyPart;
-            session.date       = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-            session.created_at = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
-            long sessionId = db.workoutSessionDao().insert(session);
-
-            db.routineDao().deleteByBodyPart(bodyPart);
-
-            List<Routine> routines = new ArrayList<>();
-            for (String name : exerciseNames) {
-                Exercise exercise = db.exerciseDao().getByName(name);
-                Routine routine = new Routine();
-                routine.body_part      = bodyPart;
-                routine.exercise_name  = name;
-                routine.exercise_id    = exercise != null ? exercise.id : 0;
-                routine.default_sets   = 3;
-                routine.default_reps   = 10;
-                routine.default_weight = 0;
-                routines.add(routine);
-            }
-            db.routineDao().insertAll(routines);
-
-            List<WorkoutLog> logs = new ArrayList<>();
-            for (String name : exerciseNames) {
-                for (int s = 1; s <= 3; s++) {
-                    WorkoutLog log = new WorkoutLog();
-                    log.session_id     = (int) sessionId;
-                    log.exercise_name  = name;
-                    log.set_number     = s;
-                    log.planned_sets   = 3;
-                    log.planned_reps   = 10;
-                    log.planned_weight = 0;
-                    log.reps           = 0;
-                    log.weight         = 0;
-                    log.is_done        = 0;
-                    logs.add(log);
+            for (Routine r : routineList) {
+                for (WorkoutLog log : workoutLogs) {
+                    if (r.exercise_name.equals(log.exercise_name)) {
+                        r.default_weight = Math.max((int) log.weight, r.default_weight);
+                        r.default_reps   = Math.max(log.reps, r.default_reps);
+                        r.default_sets   = Math.max(log.set_number, r.default_sets);
+                        break;
+                    }
                 }
+                db.routineDao().update(r);
             }
-            db.workoutLogDao().insertAll(logs);
-
-            runOnUiThread(() -> {
-                Intent intent = new Intent(this, WorkoutCheckActivity.class);
-                intent.putExtra(EXTRA_SESSION_ID, (int) sessionId);
-                startActivity(intent);
-                finish();
-            });
         });
     }
+
 }

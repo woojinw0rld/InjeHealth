@@ -31,8 +31,11 @@ public class ExerciseSelectBottomSheet extends BottomSheetDialogFragment {
     }
 
     private static final String ARG_BODY_PART = "body_part";
+    private static final String ARG_ROUTINE_NAME = "routine_name";
+    private static final String[] ARG_BODY_PART_ARR = {"가슴", "등", "하체", "팔", "유산소", "코어"};
 
     private OnExerciseSelectedListener listener;
+
 
     public static ExerciseSelectBottomSheet newInstance(String bodyPart) {
         ExerciseSelectBottomSheet sheet = new ExerciseSelectBottomSheet();
@@ -40,6 +43,15 @@ public class ExerciseSelectBottomSheet extends BottomSheetDialogFragment {
         args.putString(ARG_BODY_PART, bodyPart);
         sheet.setArguments(args);
         return sheet;
+    }
+    private boolean checkBodyPart(String str){
+        for(int i=0; i<ARG_BODY_PART_ARR.length; i++){
+            if(str.equals(ARG_BODY_PART_ARR[i])){
+                return true;
+            }
+        }
+        return false;
+
     }
 
     public void setOnExerciseSelectedListener(OnExerciseSelectedListener listener) {
@@ -58,6 +70,7 @@ public class ExerciseSelectBottomSheet extends BottomSheetDialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         String bodyPart = getArguments() != null ? getArguments().getString(ARG_BODY_PART, "") : "";
+        boolean loadAll = checkBodyPart(bodyPart);
 
         RecyclerView rv = view.findViewById(R.id.rv_exercises);
         rv.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -70,8 +83,9 @@ public class ExerciseSelectBottomSheet extends BottomSheetDialogFragment {
         rv.setAdapter(adapter);
 
         Executors.newSingleThreadExecutor().execute(() -> {
-            List<Exercise> exercises = AppDatabase.getInstance(requireContext())
-                    .exerciseDao().getByBodyPart(bodyPart);
+            List<Exercise> exercises = loadAll ?
+                AppDatabase.getInstance(requireContext()).exerciseDao().getByBodyPart(bodyPart):
+                AppDatabase.getInstance(requireContext()).exerciseDao().getAll();
             requireActivity().runOnUiThread(() -> {
                 for (Exercise e : exercises) names.add(e.name);
                 adapter.notifyDataSetChanged();

@@ -38,22 +38,38 @@
         android:layout_height="1dp"
         android:background="#1FE0E0E0" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#1E1E1E"
-        app:tabMode="scrollable"
-        app:tabGravity="start"
-        app:tabSelectedTextColor="#1E88E5"
-        app:tabTextColor="#9E9E9E"
-        app:tabIndicatorColor="#1E88E5"
-        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_routines"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:clipToPadding="false" />
+
+        <TextView
+            android:id="@+id/tv_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="저장된 루틴이 없습니다"
+            android:textColor="#616161"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_add_routine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/ic_add"
+            app:tint="#FFFFFF" />
+
+    </FrameLayout>
 
 </LinearLayout>

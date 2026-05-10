@@ -32,12 +32,18 @@ public class WorkoutCheckActivity extends AppCompatActivity {
     private TextView tvSetsProgress;
     private int totalSets = 0;
     private int completedSets = 0;
+    private String bodyPart;
+    private String startAy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_check);
 
+        bodyPart = getIntent().getStringExtra(RoutineSetupActivity.ROUTINE_NAME);
+
+
+        //일단 이거 안씀.
         sessionId = getIntent().getIntExtra(RoutineSetupActivity.EXTRA_SESSION_ID, -1);
 
         tvSetsProgress = findViewById(R.id.tv_sets_progress);
@@ -99,7 +105,7 @@ public class WorkoutCheckActivity extends AppCompatActivity {
             WorkoutSession session = db.workoutSessionDao().getById(sessionId);
             List<WorkoutLog> logs  = db.workoutLogDao().getBySession(sessionId);
 
-            String bodyPart = session != null ? session.body_part : "";
+            String bodyPart = session != null ? session.routine_name : "";
             Map<String, List<WorkoutLog>> grouped = new LinkedHashMap<>();
             for (WorkoutLog log : logs) {
                 grouped.computeIfAbsent(log.exercise_name, k -> new ArrayList<>()).add(log);

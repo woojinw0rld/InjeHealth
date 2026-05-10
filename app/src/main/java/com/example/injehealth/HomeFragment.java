@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -89,20 +88,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupBodyPartChips(View view) {
-        int[] chipIds = {
-                R.id.chip_chest, R.id.chip_back, R.id.chip_legs,
-                R.id.chip_shoulders, R.id.chip_arms, R.id.chip_cardio
-        };
-        String[] parts = {"가슴", "등", "하체", "어깨", "팔", "유산소"};
-
-        for (int i = 0; i < chipIds.length; i++) {
-            String part = parts[i];
-            view.findViewById(chipIds[i]).setOnClickListener(v -> {
-                Intent intent = new Intent(requireContext(), RoutineSetupActivity.class);
-                intent.putExtra(RoutineSetupActivity.EXTRA_BODY_PART, part);
-                startActivity(intent);
-            });
-        }
+        view.findViewById(R.id.btn_start_workout).setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), RoutineSetupActivity.class);
+            startActivity(intent);
+        });
         /** bnt_exercise_catalog :: 전체 운동 리스트*/
         view.findViewById(R.id.btn_exercise_catalog).setOnClickListener(v ->
                 ((MainActivity) requireActivity()).switchToTab(R.id.tab_exercise));
@@ -205,7 +194,7 @@ public class HomeFragment extends Fragment {
         cardRecentWorkout.setVisibility(View.VISIBLE);
         tvNoRecentWorkout.setVisibility(View.GONE);
 
-        tvRecentBodyPart.setText(session.body_part + " 운동");
+        tvRecentBodyPart.setText(session.routine_name + " 운동");
         tvRecentDate.setText(formatDateKorean(session.date));
         tvRecentDuration.setText(calcDuration(session.created_at, session.done_at));
         tvRecentVolume.setText(formatVolume(logs));

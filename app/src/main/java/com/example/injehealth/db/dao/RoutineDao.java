@@ -24,12 +24,24 @@ public interface RoutineDao {
     @Delete
     void delete(Routine routine);
 
-    @Query("SELECT * FROM routines WHERE body_part = :bodyPart")
-    List<Routine> getByBodyPart(String bodyPart);
+    @Query("SELECT * FROM routines WHERE routine_name = :routine_name")
+    List<Routine> getByRoutineName(String routine_name);
 
-    @Query("SELECT * FROM routines ORDER BY body_part, id")
+    @Query("SELECT * FROM routines ORDER BY routine_name, id")
     List<Routine> getAll();
 
-    @Query("DELETE FROM routines WHERE body_part = :bodyPart")
-    void deleteByBodyPart(String bodyPart);
+    @Query("DELETE FROM routines WHERE routine_name = :routine_name")
+    void deleteByBodyPart(String routine_name);
+
+    @Query("SELECT DISTINCT routine_name FROM routines WHERE routine_name IS NOT + NULL ORDER BY routine_name")
+    List<String> getDistinctRoutineNames();
+
+    @Query("SELECT exercise_name FROM routines WHERE routine_name = :routineName")
+    List<String> getExerciseNamesByRoutineName(String routineName);
+
+    @Query("DELETE FROM routines WHERE routine_name = :routineName")
+    void deleteRoutine(String routineName);
+
+    @Query("DELETE FROM routines WHERE routine_name = :routineName AND exercise_name = :exerciseName")
+    void deleteExerciseFromRoutine(String routineName, String exerciseName);
 }
