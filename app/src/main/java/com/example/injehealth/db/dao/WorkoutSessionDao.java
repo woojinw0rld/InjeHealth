@@ -42,5 +42,12 @@ public interface WorkoutSessionDao {
            "GROUP BY ws.id " +
            "ORDER BY ws.date DESC")
     List<SessionSummary> getSessionSummaries();
+    @Query("SELECT * FROM workout_sessions WHERE routine_name = :routineName AND date = :date LIMIT 1")
+    WorkoutSession getByRoutineNameAndDate(String routineName, String date);
+    @Query("SELECT ws.* FROM workout_sessions ws " +
+            "INNER JOIN workout_logs wl ON wl.session_id = ws.id " +
+            "WHERE ws.routine_name = :routineName AND wl.is_done = 1 " +
+            "ORDER BY ws.id DESC LIMIT 1")
+    WorkoutSession getByRoutineName(String routineName);
 
 }

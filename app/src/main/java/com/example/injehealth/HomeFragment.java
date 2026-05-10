@@ -128,7 +128,7 @@ public class HomeFragment extends Fragment {
             List<WorkoutSession> sessions = db.workoutSessionDao().getAll();
 
             WorkoutSession recent = sessions.isEmpty() ? null : sessions.get(0);
-            List<WorkoutLog> recentLogs = recent != null ? db.workoutLogDao().getBySession(recent.id) : new ArrayList<>();
+            List<WorkoutLog> recentLogs = recent != null ? db.workoutLogDao().getBySessionId(recent.id) : new ArrayList<>();
 
             int weekly = calcWeeklyCount(sessions);
             int streak = calcStreak(sessions);

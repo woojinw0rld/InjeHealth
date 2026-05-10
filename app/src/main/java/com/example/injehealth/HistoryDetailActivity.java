@@ -92,7 +92,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
         // 백그라운드에서 세션 + 로그 데이터 조회
         Executors.newSingleThreadExecutor().execute(() -> {
             WorkoutSession session = AppDatabase.getInstance(this).workoutSessionDao().getById(sessionId);
-            List<WorkoutLog> logs = AppDatabase.getInstance(this).workoutLogDao().getBySession(sessionId);
+            List<WorkoutLog> logs = AppDatabase.getInstance(this).workoutLogDao().getBySessionId(sessionId);
             if (session != null) {
                 runOnUiThread(() -> bindData(session, logs));
             }
