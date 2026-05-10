@@ -82,18 +82,22 @@ public class RoutineSetupActivity extends AppCompatActivity {
             Toast.makeText(this, "루틴을 선택해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
-        setRoutinDB();
-        Intent intent = new Intent(this, WorkoutCheckActivity.class);
-        intent.putExtra(ROUTINE_NAME, myRoutine);
-        startActivity(intent);
-        finish();
+        Executors.newSingleThreadExecutor().execute(() -> {
+            setRoutineDBSync(); // DB 업데이트 (동기)
+            runOnUiThread(() -> {
+                Intent intent = new Intent(this, WorkoutCheckActivity.class);
+                intent.putExtra(ROUTINE_NAME, myRoutine);
+                startActivity(intent);
+                finish();
+            });
+        });
     }
 
     /**
      * 현재 루틴을 세팅할 때 과거 운동기록을 참고하여
      * 루틴 목표 값에 저장.
      * */
-    private void setRoutinDB(){
+    private void setRoutineDBSync(){
         Executors.newSingleThreadExecutor().execute(() -> {
             AppDatabase db = AppDatabase.getInstance(this);
             //db에서 이전 세션들 불러옴.
@@ -107,8 +111,7 @@ public class RoutineSetupActivity extends AppCompatActivity {
                     if (r.exercise_name.equals(log.exercise_name)) {
                         r.default_weight = Math.max((int) log.weight, r.default_weight);
                         r.default_reps   = Math.max(log.reps, r.default_reps);
-                        r.default_sets   = Math.max(log.set_number, r.default_sets);
-                        break;
+                        r.default_sets   = r.default_sets == 0 ? 3 : log.set_number;
                     }
                 }
                 db.routineDao().update(r);
