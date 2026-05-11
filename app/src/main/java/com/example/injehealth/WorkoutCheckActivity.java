@@ -303,11 +303,14 @@ public class WorkoutCheckActivity extends AppCompatActivity {
     // 앱당 한 번만 등록하면 되며, 중복 등록해도 무시됨
     // ─────────────────────────────────────────
     private void createNotificationChannel() {
+//        // 기존 채널 삭제 후 재생성
+//        NotificationManager manager = getSystemService(NotificationManager.class);
+//        manager.deleteNotificationChannel(CHANNEL_ID);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID,
                     "운동 알림",
-                    NotificationManager.IMPORTANCE_DEFAULT
+                    NotificationManager.IMPORTANCE_HIGH
             );
             channel.setDescription("휴식 타이머 종료 알림");
 

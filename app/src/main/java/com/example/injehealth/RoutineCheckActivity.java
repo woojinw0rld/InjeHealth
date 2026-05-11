@@ -3,6 +3,7 @@ package com.example.injehealth;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,10 @@ public class RoutineCheckActivity extends AppCompatActivity {
 
         // 뒤로가기 버튼
         findViewById(R.id.btn_back).setOnClickListener(v -> finish());
+        //루틴추가 버튼
+        findViewById(R.id.btn_add_routine).setOnClickListener(v->{
+            Toast.makeText(this, "구현예정입니다.", Toast.LENGTH_SHORT).show();
+        });
 
         // 루틴 목록 RecyclerView 설정
         RecyclerView rv = findViewById(R.id.rv_routines);
@@ -99,7 +104,13 @@ public class RoutineCheckActivity extends AppCompatActivity {
                 grouped.computeIfAbsent(r.routine_name, k -> new ArrayList<>()).add(r.exercise_name);
             }
 
-            runOnUiThread(() -> adapter.setData(grouped));
+            runOnUiThread(() -> {
+                adapter.setData(grouped);
+
+                // 빈 상태 처리 추가
+                TextView tvEmpty = findViewById(R.id.tv_empty);
+                tvEmpty.setVisibility(grouped.isEmpty() ? View.VISIBLE : View.GONE);
+            });
         });
     }
 
