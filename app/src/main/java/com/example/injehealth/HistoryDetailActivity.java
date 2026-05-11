@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.injehealth.db.AppDatabase;
 import com.example.injehealth.db.entity.WorkoutLog;
 import com.example.injehealth.db.entity.WorkoutSession;
+import com.example.injehealth.util.SystemBarHelper;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -69,14 +70,8 @@ public class HistoryDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+        SystemBarHelper.applyPadding(this, R.id.main); //상단바 패딩
         setContentView(R.layout.activity_history_detail);
-
-        // 시스템 바 영역 패딩 적용
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         // Intent에서 session_id 추출 — 없으면 화면 종료
         int sessionId = getIntent().getIntExtra("session_id", -1);

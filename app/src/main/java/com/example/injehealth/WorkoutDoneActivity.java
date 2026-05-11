@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.injehealth.db.AppDatabase;
 import com.example.injehealth.db.entity.WorkoutLog;
 import com.example.injehealth.db.entity.WorkoutSession;
+import com.example.injehealth.util.SystemBarHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -98,6 +99,7 @@ public class WorkoutDoneActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_done);
+        SystemBarHelper.applyPadding(this, R.id.main);
 
         // 이전 화면(WorkoutCheckActivity)에서 넘어온 세션 ID 수신
         sessionId = getIntent().getIntExtra(RoutineSetupActivity.EXTRA_SESSION_ID, -1);

@@ -22,6 +22,7 @@ import com.example.injehealth.db.AppDatabase;
 import com.example.injehealth.db.entity.DietItem;
 import com.example.injehealth.db.entity.DietLog;
 import com.example.injehealth.util.PhotoFileHelper;
+import com.example.injehealth.util.SystemBarHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
@@ -47,6 +48,8 @@ public class DietDayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet_day);
+
+        SystemBarHelper.applyPadding(this, R.id.main);
 
         // 갤러리 런처 등록 (API 33+)
         galleryLauncher = registerForActivityResult(

@@ -16,6 +16,7 @@ import com.example.injehealth.db.AppDatabase;
 import com.example.injehealth.db.entity.Routine;
 import com.example.injehealth.db.entity.WorkoutLog;
 import com.example.injehealth.db.entity.WorkoutSession;
+import com.example.injehealth.util.SystemBarHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,6 +50,7 @@ public class RoutineSetupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_routine_setup);
+        SystemBarHelper.applyPadding(this, R.id.main);
 
         // 상단 오늘 요일 뱃지 설정
         setTopTitle();

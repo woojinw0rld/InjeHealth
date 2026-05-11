@@ -25,6 +25,7 @@ import com.example.injehealth.db.AppDatabase;
 import com.example.injehealth.db.entity.Routine;
 import com.example.injehealth.db.entity.WorkoutLog;
 import com.example.injehealth.db.entity.WorkoutSession;
+import com.example.injehealth.util.SystemBarHelper;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -70,6 +71,7 @@ public class WorkoutCheckActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_check);
+        SystemBarHelper.applyPadding(this, R.id.main);
 
         // 이전 화면에서 넘어온 루틴 이름 수신
         routineName = getIntent().getStringExtra(RoutineSetupActivity.ROUTINE_NAME);
