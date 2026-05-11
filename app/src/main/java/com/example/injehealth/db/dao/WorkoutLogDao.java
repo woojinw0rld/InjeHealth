@@ -23,11 +23,13 @@ public interface WorkoutLogDao {
     void update(WorkoutLog log);
 
     @Query("SELECT * FROM workout_logs WHERE session_id = :sessionId ORDER BY exercise_name, set_number")
-    List<WorkoutLog> getBySession(int sessionId);
+    List<WorkoutLog> getBySessionId(int sessionId);
 
     @Query("DELETE FROM workout_logs WHERE session_id = :sessionId")
     void deleteBySession(int sessionId);
 
     @Query("SELECT COUNT(DISTINCT exercise_name) FROM workout_logs WHERE session_id = :sessionId")
     int getExerciseCount(int sessionId);
+
+
 }

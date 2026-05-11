@@ -31,11 +31,10 @@ public class ExerciseSelectBottomSheet extends BottomSheetDialogFragment {
     }
 
     private static final String ARG_BODY_PART = "body_part";
-    private static final String ARG_ROUTINE_NAME = "routine_name";
-    private static final String[] ARG_BODY_PART_ARR = {"가슴", "등", "하체", "팔", "유산소", "코어"};
+
+    private static final String[] ARG_BODY_PART_ARR = {"가슴", "등", "하체", "팔", "유산소", "코어", "어깨"};
 
     private OnExerciseSelectedListener listener;
-
 
     public static ExerciseSelectBottomSheet newInstance(String bodyPart) {
         ExerciseSelectBottomSheet sheet = new ExerciseSelectBottomSheet();
@@ -51,7 +50,6 @@ public class ExerciseSelectBottomSheet extends BottomSheetDialogFragment {
             }
         }
         return false;
-
     }
 
     public void setOnExerciseSelectedListener(OnExerciseSelectedListener listener) {

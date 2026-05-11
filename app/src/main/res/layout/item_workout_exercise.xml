@@ -24,5 +24,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" />
+    <Button
+        android:id="@+id/btn_add_set"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="+ 세트 추가"
+        android:textColor="#1E88E5"
+        android:background="@android:color/transparent"
+        android:textSize="14sp" />
 
 </LinearLayout>

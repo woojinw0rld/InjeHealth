@@ -107,7 +107,7 @@ public class RoutineListActivity extends AppCompatActivity {
             routine.exercise_id = ex != null ? ex.id : 0;
             routine.default_sets = 3;
             routine.default_reps = 10;
-            routine.default_weight = 0;
+            routine.default_weight = 10;
             db.routineDao().insert(routine);
             runOnUiThread(this::loadRoutines);
         });
