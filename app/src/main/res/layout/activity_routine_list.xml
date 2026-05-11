@@ -31,6 +31,17 @@
             android:textColor="#E0E0E0"
             android:textSize="18sp"
             android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tv_days_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            android:background="@drawable/bg_badge_blue"
+            android:text="월요일"
+            android:textColor="#1E88E5"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <View
@@ -55,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="저장된 루틴이 없습니다"
+            android:text="저장된 루틴이 없습니다.\n파란 버튼을 눌러 루틴을 추가해보세요."
             android:textColor="#616161"
             android:textSize="15sp"
             android:visibility="gone" />
@@ -70,6 +81,15 @@
             app:srcCompat="@drawable/ic_add"
             app:tint="#FFFFFF" />
 
-    </FrameLayout>
 
+    </FrameLayout>
+    <Button
+        android:id="@+id/btn_start_workout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="운동 시작"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:backgroundTint="#1E88E5"
+        android:textColor="#FFFFFF" />
 </LinearLayout>

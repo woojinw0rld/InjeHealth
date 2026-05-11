@@ -48,7 +48,7 @@ public class RoutineSetupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_routine_setup);
+        setContentView(R.layout.activity_routine_list);
 
         // 상단 오늘 요일 뱃지 설정
         setTopTitle();
