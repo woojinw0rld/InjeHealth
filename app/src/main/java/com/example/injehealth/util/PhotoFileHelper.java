@@ -11,6 +11,18 @@ public class PhotoFileHelper {
     private static final String AUTHORITY_SUFFIX = ".fileprovider";
 
     /**
+     * DB에 저장된 사진 경로를 Glide가 안정적으로 읽을 수 있는 모델로 변환.
+     * content://, file:// URI는 Uri로, 앱 내부 절대경로는 File로 로드한다.
+     */
+    public static Object toGlideModel(String persisted) {
+        if (persisted == null || persisted.isEmpty()) return null;
+        Uri uri = Uri.parse(persisted);
+        String scheme = uri.getScheme();
+        if (scheme != null) return uri;
+        return new File(persisted);
+    }
+
+    /**
      * Uri → getFilesDir()/<subdir>/<fileName> 복사 후 상대경로 반환.
      * 운동/식단 사진 저장 공통 메서드.
      */

@@ -1,7 +1,6 @@
 package com.example.injehealth.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import com.example.injehealth.R;
 import com.example.injehealth.db.AppDatabase;
 import com.example.injehealth.db.entity.DietItem;
 import com.example.injehealth.db.entity.DietLog;
+import com.example.injehealth.util.PhotoFileHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,8 +75,8 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
         // 사진
         if (log.photoPath != null) {
             Glide.with(context)
-                    .load(Uri.parse(log.photoPath))
-                    .centerCrop()
+                    .load(PhotoFileHelper.toGlideModel(log.photoPath))
+                    .fitCenter()
                     .placeholder(R.color.surface_variant)
                     .into(holder.ivMealPhoto);
             holder.ivMealPhoto.setVisibility(View.VISIBLE);

@@ -1,7 +1,6 @@
 package com.example.injehealth.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.injehealth.R;
 import com.example.injehealth.db.model.DietDaySummary;
+import com.example.injehealth.util.PhotoFileHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -69,7 +69,7 @@ public class DietDayAdapter extends RecyclerView.Adapter<DietDayAdapter.ViewHold
 
         if (summary.thumbnailPath != null) {
             Glide.with(context)
-                    .load(Uri.parse(summary.thumbnailPath))
+                    .load(PhotoFileHelper.toGlideModel(summary.thumbnailPath))
                     .centerCrop()
                     .placeholder(R.color.surface_variant)
                     .into(holder.ivThumbnail);

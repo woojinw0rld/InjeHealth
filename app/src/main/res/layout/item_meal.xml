@@ -99,10 +99,12 @@
     <ImageView
         android:id="@+id/ivMealPhoto"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
         android:background="@drawable/bg_photo_thumb"
-        android:scaleType="centerCrop"
+        android:maxHeight="320dp"
+        android:scaleType="fitCenter"
         android:importantForAccessibility="no"
         android:visibility="gone" />
 

@@ -246,7 +246,7 @@
                     android:background="@drawable/bg_photo_border"
                     android:clipToOutline="true"
                     android:contentDescription="Workout Photo"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitCenter" />
             </LinearLayout>
 
             <!-- Exercise Detail Section -->

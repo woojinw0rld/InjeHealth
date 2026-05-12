@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.injehealth.R;
 import com.example.injehealth.db.model.SessionSummary;
+import com.example.injehealth.util.PhotoFileHelper;
 
-import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -151,7 +151,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
             // 눈바디 썸네일: 사진 경로 있으면 Glide로 로드, 없으면 플레이스홀더
             if (session.photo_path != null && !session.photo_path.isEmpty()) {
                 Glide.with(context)
-                        .load(new File(session.photo_path))
+                        .load(PhotoFileHelper.toGlideModel(session.photo_path))
                         .centerCrop()
                         .placeholder(R.drawable.ic_camera_placeholder)
                         .error(R.drawable.ic_camera_placeholder)

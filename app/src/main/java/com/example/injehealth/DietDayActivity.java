@@ -2,11 +2,15 @@ package com.example.injehealth;
 
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -150,18 +154,30 @@ public class DietDayActivity extends AppCompatActivity {
     }
 
     private void showMealMoreMenu(DietLog log, View anchor) {
-        PopupMenu popup = new PopupMenu(this, anchor);
-        popup.getMenu().add(0, 1, 0, getString(R.string.diet_meal_edit_time));
-        popup.getMenu().add(0, 2, 0, getString(R.string.diet_meal_edit_memo));
-        popup.getMenu().add(0, 3, 0, getString(R.string.diet_meal_delete));
-        popup.setOnMenuItemClickListener(item -> {
-            int id = item.getItemId();
-            if (id == 1) { showTimeEditDialog(log); return true; }
-            if (id == 2) { showMemoEditDialog(log); return true; }
-            if (id == 3) { showMealDeleteConfirm(log); return true; }
-            return false;
+        View menuView = LayoutInflater.from(this).inflate(R.layout.popup_meal_more, null, false);
+        PopupWindow popup = new PopupWindow(menuView, dp(180), ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popup.setOutsideTouchable(true);
+        popup.setElevation(dp(8));
+
+        menuView.findViewById(R.id.actionEditTime).setOnClickListener(v -> {
+            popup.dismiss();
+            showTimeEditDialog(log);
         });
-        popup.show();
+        menuView.findViewById(R.id.actionEditMemo).setOnClickListener(v -> {
+            popup.dismiss();
+            showMemoEditDialog(log);
+        });
+        menuView.findViewById(R.id.actionDeleteMeal).setOnClickListener(v -> {
+            popup.dismiss();
+            showMealDeleteConfirm(log);
+        });
+
+        popup.showAsDropDown(anchor, -dp(156), 0);
+    }
+
+    private int dp(int value) {
+        return (int) (value * getResources().getDisplayMetrics().density + 0.5f);
     }
 
     private void showTimeEditDialog(DietLog log) {

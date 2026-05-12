@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.injehealth.db.AppDatabase;
 import com.example.injehealth.db.entity.WorkoutLog;
 import com.example.injehealth.db.entity.WorkoutSession;
+import com.example.injehealth.util.PhotoFileHelper;
 import com.example.injehealth.util.SystemBarHelper;
 
 import java.text.NumberFormat;
@@ -172,7 +173,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
         // 눈바디 사진: 경로 있으면 Glide로 로드, 없으면 숨김
         if (session.photo_path != null && !session.photo_path.isEmpty()) {
             layoutPhoto.setVisibility(View.VISIBLE);
-            Glide.with(this).load(session.photo_path).into(ivPhoto);
+            Glide.with(this).load(PhotoFileHelper.toGlideModel(session.photo_path)).fitCenter().into(ivPhoto);
         } else {
             layoutPhoto.setVisibility(View.GONE);
         }

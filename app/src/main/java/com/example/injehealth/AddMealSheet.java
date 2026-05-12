@@ -255,7 +255,7 @@ public class AddMealSheet extends BottomSheetDialogFragment {
     // ─────────────────────────────────────────
     private void showPhoto(File file) {
         if (!isAdded()) return;
-        Glide.with(this).load(file).centerCrop().into(ivPhotoPreview);
+        Glide.with(this).load(file).fitCenter().into(ivPhotoPreview);
         ivPhotoPreview.setVisibility(View.VISIBLE);
         btnPhotoRemove.setVisibility(View.VISIBLE);
         View root = getView();

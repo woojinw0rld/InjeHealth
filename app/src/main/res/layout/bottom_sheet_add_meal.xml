@@ -103,7 +103,7 @@
             android:id="@+id/ivPhotoPreview"
             android:layout_width="match_parent"
             android:layout_height="160dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:background="@drawable/bg_photo_thumb"
             android:visibility="gone" />
 
