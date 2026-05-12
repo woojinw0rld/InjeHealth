@@ -1,6 +1,5 @@
 package com.example.injehealth;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.injehealth.adapter.ExerciseAdapter;
 import com.example.injehealth.db.AppDatabase;
 import com.example.injehealth.db.entity.Exercise;
-import com.example.injehealth.util.PhotoPickerHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -27,11 +25,6 @@ import java.util.List;
 import java.util.concurrent.Executors;
 
 public class ExerciseCatalogFragment extends Fragment {
-
-    // 갤러리 picker (onCreate에서 등록 필수)
-    PhotoPickerHelper photoPicker;
-    // picker 결과를 Sheet로 전달하기 위한 콜백
-    private java.util.function.Consumer<Uri> pendingPickerCallback;
 
     private ExerciseAdapter adapter;
     private List<Exercise> allExercises = new ArrayList<>();
@@ -47,8 +40,6 @@ public class ExerciseCatalogFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // ActivityResultLauncher는 반드시 onCreate에서 등록
-        photoPicker = new PhotoPickerHelper(this);
     }
 
     @Nullable
@@ -172,15 +163,5 @@ public class ExerciseCatalogFragment extends Fragment {
     /** AddCustomExerciseSheet에서 추가 완료 시 호출 */
     public void onCustomExerciseAdded() {
         loadExercises();
-    }
-
-    /** Sheet에서 갤러리 실행 요청 시 호출 */
-    public void launchGalleryFor(java.util.function.Consumer<Uri> callback) {
-        pendingPickerCallback = callback;
-        photoPicker.launchGallery(uri -> {
-            java.util.function.Consumer<Uri> cb = pendingPickerCallback;
-            pendingPickerCallback = null;
-            if (cb != null) cb.accept(uri);
-        });
     }
 }

@@ -3,54 +3,12 @@ package com.example.injehealth.util;
 import android.content.Context;
 import android.net.Uri;
 
-import androidx.core.content.FileProvider;
-
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class PhotoFileHelper {
 
     private static final String AUTHORITY_SUFFIX = ".fileprovider";
-
-    /**
-     * getExternalFilesDir(Pictures)/diet_<timestamp>.jpg 파일 생성
-     */
-    public static File createDietPhotoFile(Context context) throws IOException {
-        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String fileName = "diet_" + timestamp;
-        File storageDir = context.getExternalFilesDir("Pictures");
-        if (storageDir != null && !storageDir.exists()) {
-            storageDir.mkdirs();
-        }
-        return File.createTempFile(fileName, ".jpg", storageDir);
-    }
-
-    /**
-     * File → FileProvider content URI
-     */
-    public static Uri toContentUri(Context context, File file) {
-        String authority = context.getPackageName() + AUTHORITY_SUFFIX;
-        return FileProvider.getUriForFile(context, authority, file);
-    }
-
-    /**
-     * Uri → persisted String (저장용)
-     */
-    public static String toPersisted(Uri uri) {
-        if (uri == null) return null;
-        return uri.toString();
-    }
-
-    /**
-     * persisted String → Uri
-     */
-    public static Uri fromPersisted(String persisted) {
-        if (persisted == null || persisted.isEmpty()) return null;
-        return Uri.parse(persisted);
-    }
 
     /**
      * Uri → getFilesDir()/<subdir>/<fileName> 복사 후 상대경로 반환.

@@ -1,8 +1,11 @@
 package com.example.injehealth;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -41,7 +46,26 @@ public class AddCustomExerciseSheet extends BottomSheetDialogFragment {
 
     // 부위 버튼 목록
     private final List<TextView> bodyPartBtns = new ArrayList<>();
-    private final String[] bodyPartKeys = {"가슴", "등", "하체", "어깨", "팔", "유산소"};
+    private final String[] bodyPartKeys = {"chest", "back", "legs", "shoulders", "arms", "cardio"};
+
+    // ─────────────────────────────────────────
+    // galleryLauncher: 갤러리 선택 결과 처리
+    // ─────────────────────────────────────────
+    private final ActivityResultLauncher<Intent> galleryLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == android.app.Activity.RESULT_OK
+                        && result.getData() != null) {
+                    Uri uri = result.getData().getData();
+                    if (uri != null) {
+                        selectedImageUri = uri;
+                        llUploadHint.setVisibility(View.GONE);
+                        ivPreview.setVisibility(View.VISIBLE);
+                        Glide.with(this).load(uri).centerCrop().into(ivPreview);
+                    }
+                }
+            }
+    );
 
     @Nullable
     @Override
@@ -54,11 +78,11 @@ public class AddCustomExerciseSheet extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ivPreview     = view.findViewById(R.id.ivPreview);
-        llUploadHint  = view.findViewById(R.id.llUploadHint);
+        ivPreview      = view.findViewById(R.id.ivPreview);
+        llUploadHint   = view.findViewById(R.id.llUploadHint);
         etExerciseName = view.findViewById(R.id.etExerciseName);
-        btnAdd        = view.findViewById(R.id.btnAdd);
-        Button btnCancel = view.findViewById(R.id.btnCancel);
+        btnAdd         = view.findViewById(R.id.btnAdd);
+        Button btnCancel  = view.findViewById(R.id.btnCancel);
         ImageView ivClose = view.findViewById(R.id.ivClose);
         View flImageUpload = view.findViewById(R.id.flImageUpload);
 
@@ -66,8 +90,8 @@ public class AddCustomExerciseSheet extends BottomSheetDialogFragment {
         ivClose.setOnClickListener(v -> dismiss());
         btnCancel.setOnClickListener(v -> dismiss());
 
-        // 이미지 업로드 영역 클릭 → 부모 Fragment 통해 갤러리 실행
-        flImageUpload.setOnClickListener(v -> launchParentGallery());
+        // 이미지 업로드 영역 클릭 → 갤러리 실행
+        flImageUpload.setOnClickListener(v -> openGallery());
 
         // 부위 버튼 설정
         int[] btnIds = {R.id.btnChest, R.id.btnBack, R.id.btnLegs,
@@ -83,20 +107,11 @@ public class AddCustomExerciseSheet extends BottomSheetDialogFragment {
         btnAdd.setOnClickListener(v -> onAddClicked());
     }
 
-    /** 부모 ExerciseCatalogFragment에 갤러리 실행 위임 */
-    private void launchParentGallery() {
-        if (getParentFragment() instanceof ExerciseCatalogFragment) {
-            ((ExerciseCatalogFragment) getParentFragment()).launchGalleryFor(uri -> {
-                if (uri == null) return;
-                selectedImageUri = uri;
-                // 미리보기 표시
-                llUploadHint.setVisibility(View.GONE);
-                ivPreview.setVisibility(View.VISIBLE);
-                Glide.with(this).load(uri).centerCrop().into(ivPreview);
-            });
-        } else {
-            Toast.makeText(requireContext(), "갤러리를 열 수 없습니다", Toast.LENGTH_SHORT).show();
-        }
+    /** 갤러리 실행 */
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        galleryLauncher.launch(intent);
     }
 
     /** 부위 선택 상태 갱신 */
@@ -122,7 +137,7 @@ public class AddCustomExerciseSheet extends BottomSheetDialogFragment {
         }
 
         Context ctx = requireContext().getApplicationContext();
-        Uri imgUri = selectedImageUri;
+        Uri imgUri  = selectedImageUri;
         String bodyPart = selectedBodyPart;
 
         btnAdd.setEnabled(false);
@@ -135,11 +150,11 @@ public class AddCustomExerciseSheet extends BottomSheetDialogFragment {
                 // 갤러리 사진 → getFilesDir()/exercise_photos/<uuid>.jpg 복사
                 String fileName = UUID.randomUUID().toString() + ".jpg";
                 try {
-                    imageRef = PhotoFileHelper.copyToSubdir(ctx, imgUri, "exercise_photos", fileName);
+                    imageRef  = PhotoFileHelper.copyToSubdir(ctx, imgUri, "exercise_photos", fileName);
                     imageType = "file";
                 } catch (IOException e) {
                     // 복사 실패 시 부위별 기본 이미지 fallback
-                    imageRef = BodyPartLabels.imageRef(bodyPart);
+                    imageRef  = BodyPartLabels.imageRef(bodyPart);
                     imageType = "drawable";
                 }
             } else {
@@ -148,24 +163,23 @@ public class AddCustomExerciseSheet extends BottomSheetDialogFragment {
             }
 
             Exercise ex = new Exercise();
-            ex.name       = name;
-            ex.body_part  = bodyPart;
-            ex.image_type = imageType;
-            ex.image_ref  = imageRef;
-            ex.is_custom  = 1;
+            ex.name        = name;
+            ex.body_part   = bodyPart;
+            ex.image_type  = imageType;
+            ex.image_ref   = imageRef;
+            ex.is_custom   = 1;
             ex.description = null;
 
             AppDatabase.getInstance(ctx).exerciseDao().insert(ex);
 
             // UI 스레드: 시트 닫기 + 부모 새로고침
-            if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> {
-                    if (getParentFragment() instanceof ExerciseCatalogFragment) {
-                        ((ExerciseCatalogFragment) getParentFragment()).onCustomExerciseAdded();
-                    }
-                    dismiss();
-                });
-            }
+            new Handler(Looper.getMainLooper()).post(() -> {
+                if (!isAdded()) return;
+                if (getParentFragment() instanceof ExerciseCatalogFragment) {
+                    ((ExerciseCatalogFragment) getParentFragment()).onCustomExerciseAdded();
+                }
+                dismiss();
+            });
         });
     }
 }

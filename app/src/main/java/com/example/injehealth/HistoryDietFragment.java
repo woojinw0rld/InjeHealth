@@ -1,7 +1,10 @@
 package com.example.injehealth;
 
 import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,10 +73,12 @@ public class HistoryDietFragment extends Fragment {
     }
 
     private void loadData() {
+        Context appContext = requireContext().getApplicationContext();
         Executors.newSingleThreadExecutor().execute(() -> {
-            List<DietDaySummary> list = AppDatabase.getInstance(requireContext())
+            List<DietDaySummary> list = AppDatabase.getInstance(appContext)
                     .dietLogDao().getDaySummaries();
-            requireActivity().runOnUiThread(() -> {
+            new Handler(Looper.getMainLooper()).post(() -> {
+                if (!isAdded() || getView() == null || adapter == null) return;
                 adapter.setItems(list);
                 updateEmptyState(list);
             });
