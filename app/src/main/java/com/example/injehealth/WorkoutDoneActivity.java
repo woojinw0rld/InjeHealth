@@ -102,7 +102,7 @@ public class WorkoutDoneActivity extends AppCompatActivity {
         SystemBarHelper.applyPadding(this, R.id.main);
 
         // 이전 화면(WorkoutCheckActivity)에서 넘어온 세션 ID 수신
-        sessionId = getIntent().getIntExtra(RoutineSetupActivity.EXTRA_SESSION_ID, -1);
+        sessionId = getIntent().getIntExtra(RoutineCheckActivity.EXTRA_SESSION_ID, -1);
         ivPhoto = findViewById(R.id.iv_photo);
 
         // DB에서 운동 요약 데이터 로드

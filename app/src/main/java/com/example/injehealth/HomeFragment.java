@@ -90,11 +90,12 @@ public class HomeFragment extends Fragment {
         tvRecentDuration  = view.findViewById(R.id.tv_recent_duration);
         tvRecentVolume    = view.findViewById(R.id.tv_recent_volume);
         llRecentExercises = view.findViewById(R.id.ll_recent_exercises);
+
     }
 
     private void setupBodyPartChips(View view) {
         view.findViewById(R.id.btn_start_workout).setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), RoutineSetupActivity.class);
+            Intent intent = new Intent(requireContext(), RoutineCheckActivity.class);
             startActivity(intent);
         });
         /** bnt_exercise_catalog :: 전체 운동 리스트*/

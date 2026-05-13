@@ -74,7 +74,7 @@ public class WorkoutCheckActivity extends AppCompatActivity {
         SystemBarHelper.applyPadding(this, R.id.main);
 
         // 이전 화면에서 넘어온 루틴 이름 수신
-        routineName = getIntent().getStringExtra(RoutineSetupActivity.ROUTINE_NAME);
+        routineName = getIntent().getStringExtra(RoutineCheckActivity.ROUTINE_NAME);
 
         // 뷰 바인딩
         tvSetsProgress = findViewById(R.id.tv_sets_progress);
@@ -211,7 +211,7 @@ public class WorkoutCheckActivity extends AppCompatActivity {
             runOnUiThread(() -> {
                 // 운동 완료 화면으로 이동
                 Intent intent = new Intent(this, WorkoutDoneActivity.class);
-                intent.putExtra(RoutineSetupActivity.EXTRA_SESSION_ID, sessionId);
+                intent.putExtra(RoutineCheckActivity.EXTRA_SESSION_ID, sessionId);
                 startActivity(intent);
                 finish();
             });
@@ -305,11 +305,14 @@ public class WorkoutCheckActivity extends AppCompatActivity {
     // 앱당 한 번만 등록하면 되며, 중복 등록해도 무시됨
     // ─────────────────────────────────────────
     private void createNotificationChannel() {
+//        // 기존 채널 삭제 후 재생성
+//        NotificationManager manager = getSystemService(NotificationManager.class);
+//        manager.deleteNotificationChannel(CHANNEL_ID);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID,
                     "운동 알림",
-                    NotificationManager.IMPORTANCE_DEFAULT
+                    NotificationManager.IMPORTANCE_HIGH
             );
             channel.setDescription("휴식 타이머 종료 알림");
 
@@ -340,8 +343,8 @@ public class WorkoutCheckActivity extends AppCompatActivity {
         // 알림 클릭 시 기존 인스턴스를 앞으로 가져옴 (onCreate 재호출 없음)
         Intent intent = new Intent(this, WorkoutCheckActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        intent.putExtra(RoutineSetupActivity.ROUTINE_NAME, routineName);
-        intent.putExtra(RoutineSetupActivity.EXTRA_SESSION_ID, sessionId);
+        intent.putExtra(RoutineCheckActivity.ROUTINE_NAME, routineName);
+        intent.putExtra(RoutineCheckActivity.EXTRA_SESSION_ID, sessionId);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 this, 0, intent,

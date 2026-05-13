@@ -1,6 +1,7 @@
 package com.example.injehealth.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,6 +73,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
             h.ivExercise.setVisibility(View.VISIBLE);
             h.tvEmoji.setVisibility(View.GONE);
             int resId = ctx.getResources().getIdentifier(ex.image_ref, "drawable", ctx.getPackageName());
+            Log.d("IMGCHECK", "image_ref: " + ex.image_ref + " resId: " + resId);
             if (resId != 0) {
                 Glide.with(ctx).load(resId).centerCrop().into(h.ivExercise);
             } else {

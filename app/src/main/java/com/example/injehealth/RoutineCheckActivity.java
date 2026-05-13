@@ -3,6 +3,7 @@ package com.example.injehealth;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +17,6 @@ import com.example.injehealth.db.AppDatabase;
 import com.example.injehealth.db.entity.Routine;
 import com.example.injehealth.db.entity.WorkoutLog;
 import com.example.injehealth.db.entity.WorkoutSession;
-import com.example.injehealth.util.SystemBarHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,7 +30,7 @@ import java.util.concurrent.Executors;
  * - 루틴 선택 후 운동 시작
  * - 운동 시작 전 이전 기록 기반으로 루틴 목표값 업데이트
  */
-public class RoutineSetupActivity extends AppCompatActivity {
+public class RoutineCheckActivity extends AppCompatActivity {
 
     // ─────────────────────────────────────────
     // 상수 및 멤버 변수
@@ -49,14 +49,17 @@ public class RoutineSetupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_routine_setup);
-        SystemBarHelper.applyPadding(this, R.id.main);
+        setContentView(R.layout.activity_routine_list);
 
         // 상단 오늘 요일 뱃지 설정
         setTopTitle();
 
         // 뒤로가기 버튼
         findViewById(R.id.btn_back).setOnClickListener(v -> finish());
+        //루틴추가 버튼
+        findViewById(R.id.btn_add_routine).setOnClickListener(v->{
+            Toast.makeText(this, "구현예정입니다.", Toast.LENGTH_SHORT).show();
+        });
 
         // 루틴 목록 RecyclerView 설정
         RecyclerView rv = findViewById(R.id.rv_routines);
@@ -101,7 +104,13 @@ public class RoutineSetupActivity extends AppCompatActivity {
                 grouped.computeIfAbsent(r.routine_name, k -> new ArrayList<>()).add(r.exercise_name);
             }
 
-            runOnUiThread(() -> adapter.setData(grouped));
+            runOnUiThread(() -> {
+                adapter.setData(grouped);
+
+                // 빈 상태 처리 추가
+                TextView tvEmpty = findViewById(R.id.tv_empty);
+                tvEmpty.setVisibility(grouped.isEmpty() ? View.VISIBLE : View.GONE);
+            });
         });
     }
 

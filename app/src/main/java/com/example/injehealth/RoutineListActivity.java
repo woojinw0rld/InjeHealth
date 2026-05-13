@@ -33,8 +33,11 @@ public class RoutineListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_routine_list);
         SystemBarHelper.applyPadding(this, R.id.main);
 
+
         findViewById(R.id.btn_back).setOnClickListener(v -> finish());
 
+        findViewById(R.id.btn_start_workout).setVisibility(View.GONE);
+        findViewById(R.id.tv_days_badge).setVisibility(View.GONE);
         rv = findViewById(R.id.rv_routines);
         tvEmpty = findViewById(R.id.tv_empty);
         rv.setLayoutManager(new LinearLayoutManager(this));
