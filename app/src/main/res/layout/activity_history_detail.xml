@@ -49,22 +49,6 @@
             tools:text="가슴 운동" />
 
         <TextView
-            android:id="@+id/tv_badge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:backgroundTint="@color/primary_20"
-            android:background="@drawable/bg_pill"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="4dp"
-            android:textColor="@color/primary"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_title"
-            app:layout_constraintStart_toEndOf="@id/tv_title"
-            app:layout_constraintTop_toTopOf="@id/tv_title"
-            tools:text="가슴" />
-
-        <TextView
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

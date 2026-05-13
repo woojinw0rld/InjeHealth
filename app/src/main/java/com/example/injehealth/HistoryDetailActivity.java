@@ -48,7 +48,7 @@ import java.util.concurrent.Executors;
 public class HistoryDetailActivity extends AppCompatActivity {
 
     // 헤더 영역
-    private TextView tvTitle, tvBadge, tvDate;
+    private TextView tvTitle, tvDate;
 
     // 통계 영역 (운동 시간 / 총 세트 / 총 볼륨 / 달성률)
     private TextView tvStatTime, tvStatSets, tvStatVolume, tvStatRate;
@@ -99,7 +99,6 @@ public class HistoryDetailActivity extends AppCompatActivity {
     private void initViews() {
         btnBack = findViewById(R.id.btn_back);
         tvTitle = findViewById(R.id.tv_title);
-        tvBadge = findViewById(R.id.tv_badge);
         tvDate = findViewById(R.id.tv_date);
 
         tvStatTime = findViewById(R.id.tv_stat_time);
@@ -123,7 +122,6 @@ public class HistoryDetailActivity extends AppCompatActivity {
     private void bindData(WorkoutSession session, List<WorkoutLog> logs) {
         // 헤더: 부위명 + 날짜
         tvTitle.setText(String.format("%s 운동", session.routine_name));
-        tvBadge.setText(session.routine_name);
         tvDate.setText(formatDate(session.date));
 
         // 운동 시간 계산 (created_at ~ done_at 차이, 분 단위)

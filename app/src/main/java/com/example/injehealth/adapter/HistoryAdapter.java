@@ -83,7 +83,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
      *
      * 바인딩 항목:
      * - 날짜: "yyyy-MM-dd" → "yyyy년 M월 d일"
-     * - 부위 배지: body_part
+     * - 루틴 배지: routine_name
      * - 세트 수 / 운동 시간 / 종목 개수
      * - 눈바디 썸네일: Glide로 파일 경로에서 로드
      */
@@ -120,8 +120,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
                 tvDate.setText(session.date); // 파싱 실패 시 원본 문자열 표시
             }
 
-            // 부위 배지
-            tvBodyPart.setText(session.body_part != null ? session.body_part : "");
+            // 루틴 배지
+            tvBodyPart.setText(session.routine_name != null ? session.routine_name : "");
 
             // 세트 수
             tvSets.setText(String.format(Locale.getDefault(), context.getString(R.string.history_sets_format), session.total_sets));

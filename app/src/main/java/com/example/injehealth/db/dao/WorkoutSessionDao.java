@@ -34,7 +34,7 @@ public interface WorkoutSessionDao {
     @Query("SELECT * FROM workout_sessions WHERE routine_name = :routineName ORDER BY id DESC LIMIT 1")
     WorkoutSession getLastByRoutineName(String routineName);
 
-    @Query("SELECT ws.id, ws.date, ws.routine_name, ws.photo_path, ws.created_at, ws.done_at, " +
+    @Query("SELECT ws.id, ws.date, ws.routine_name AS routine_name, ws.photo_path, ws.created_at, ws.done_at, " +
            "COUNT(DISTINCT wl.exercise_name) AS exercise_count, " +
            "COUNT(wl.id) AS total_sets " +
            "FROM workout_sessions ws " +
