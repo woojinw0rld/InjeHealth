@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -90,7 +91,15 @@ public class WorkoutCheckActivity extends AppCompatActivity {
 
         // 운동 종료 버튼 → 종료 확인 다이얼로그
         Button btnFinish = findViewById(R.id.btn_finish_workout);
-        btnFinish.setOnClickListener(v -> showFinishConfirmDialog());
+        btnFinish.setOnClickListener(v -> {
+            if (totalSets > 0 && totalSets == completedSets) {
+                // 모든 세트 완료 시 종료 다이얼로그
+                showFinishConfirmDialog();
+            } else {
+                // 미완료 세트 있으면 경고
+                Toast.makeText(this, "모든 세트를 완료해주세요", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // 알림 초기화
         createNotificationChannel();
@@ -194,6 +203,7 @@ public class WorkoutCheckActivity extends AppCompatActivity {
     // done_at 기록 후 WorkoutDoneActivity로 이동
     // ─────────────────────────────────────────
     private void finishWorkout() {
+
         // 진행 중인 휴식 타이머 전부 취소
         adapter.cancelAllTimers();
 
@@ -286,6 +296,11 @@ public class WorkoutCheckActivity extends AppCompatActivity {
             public void onRestTimerFinished() {
                 showNotification();
             }
+            @Override
+            public void onSetCheckedWhileResting(){
+                Toast.makeText(WorkoutCheckActivity.this, "쉬는시간에는 운동금지!", Toast.LENGTH_SHORT).show();
+            }
+
         });
 
         rv.setAdapter(adapter);
