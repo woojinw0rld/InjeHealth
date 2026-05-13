@@ -90,6 +90,7 @@ public class HomeFragment extends Fragment {
         tvRecentDuration  = view.findViewById(R.id.tv_recent_duration);
         tvRecentVolume    = view.findViewById(R.id.tv_recent_volume);
         llRecentExercises = view.findViewById(R.id.ll_recent_exercises);
+
     }
 
     private void setupBodyPartChips(View view) {
