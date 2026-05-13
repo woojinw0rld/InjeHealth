@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class SystemBarHelper {
     public static void applyPadding(Activity activity, int rootId) {
         View root = activity.findViewById(rootId);
+        if (root == null) return;
         int initialLeft = root.getPaddingLeft();
         int initialTop = root.getPaddingTop();
         int initialRight = root.getPaddingRight();

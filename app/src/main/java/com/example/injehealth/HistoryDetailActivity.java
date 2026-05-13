@@ -71,8 +71,8 @@ public class HistoryDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        SystemBarHelper.applyPadding(this, R.id.main); //상단바 패딩
         setContentView(R.layout.activity_history_detail);
+        SystemBarHelper.applyPadding(this, R.id.main); //상단바 패딩
 
         // Intent에서 session_id 추출 — 없으면 화면 종료
         int sessionId = getIntent().getIntExtra("session_id", -1);
