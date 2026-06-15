@@ -36,6 +36,8 @@ public class WorkoutLogAdapter extends RecyclerView.Adapter<WorkoutLogAdapter.Vi
         void onSetAdded(WorkoutLog newLog);      // 세트 추가
         void onSetDeleted(WorkoutLog log);       // 세트 삭제
         void onRestTimerFinished();              // 휴식 타이머 종료 → 알림은 액티비티가 처리
+
+        void onSetCheckedWhileResting();
     }
 
     // ─────────────────────────────────────────
@@ -47,6 +49,9 @@ public class WorkoutLogAdapter extends RecyclerView.Adapter<WorkoutLogAdapter.Vi
     private final Map<Integer, CountDownTimer>   activeTimers = new HashMap<>();
     private final Map<Integer, Long>             remainingMs  = new HashMap<>();
     private final int                            sessionId;
+
+    private boolean                              isResting = false;
+
 
     // ─────────────────────────────────────────
     // 생성자: Context 받지 않음 (메모리 누수 방지)
@@ -177,6 +182,10 @@ public class WorkoutLogAdapter extends RecyclerView.Adapter<WorkoutLogAdapter.Vi
 
         // 체크 버튼: 세트 완료 처리
         btnCheck.setOnClickListener(v -> {
+            if(isResting){
+                listener.onSetCheckedWhileResting();
+                return;
+            }
             String repsStr   = etActualReps.getText().toString().trim();
             String weightStr = etActualWeight.getText().toString().trim();
             if (repsStr.isEmpty() || weightStr.isEmpty()) return;
@@ -233,6 +242,7 @@ public class WorkoutLogAdapter extends RecyclerView.Adapter<WorkoutLogAdapter.Vi
         if (activeTimers.containsKey(timerKey)) {
             activeTimers.get(timerKey).cancel();
         }
+        isResting = true;
 
         llTimer.setVisibility(View.VISIBLE);
         remainingMs.put(timerKey, ms);
@@ -247,6 +257,7 @@ public class WorkoutLogAdapter extends RecyclerView.Adapter<WorkoutLogAdapter.Vi
 
             @Override
             public void onFinish() {
+                isResting = false;
                 llTimer.setVisibility(View.GONE);
                 activeTimers.remove(timerKey);
                 remainingMs.remove(timerKey);
